@@ -4,6 +4,7 @@ using DoAnThucTapFin.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DoAnThucTapFin.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230628144308_one0")]
+    partial class one0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("banners", (string)null);
+                    b.ToTable("banners");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Areas.Admin.Models.Product", b =>
@@ -82,7 +85,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Areas.Admin.Models.Tags", b =>
@@ -106,7 +109,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("tags", (string)null);
+                    b.ToTable("tags");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Models.CartDetail", b =>
@@ -135,7 +138,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasIndex("productid");
 
-                    b.ToTable("CartDetail", (string)null);
+                    b.ToTable("CartDetail");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Models.Order", b =>
@@ -163,7 +166,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasIndex("OrderStatusId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Models.OrderDetail", b =>
@@ -192,7 +195,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasIndex("Productid");
 
-                    b.ToTable("OrderDetail", (string)null);
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Models.OrderStatus", b =>
@@ -213,7 +216,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderStatus", (string)null);
+                    b.ToTable("OrderStatus");
                 });
 
             modelBuilder.Entity("DoAnThucTapFin.Models.ShoppingCart", b =>
@@ -233,7 +236,7 @@ namespace DoAnThucTapFin.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingCart", (string)null);
+                    b.ToTable("ShoppingCart");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

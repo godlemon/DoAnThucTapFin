@@ -1,10 +1,8 @@
-using BookShoppingCartMvcUI.Data;
 using DoAnThucTapFin;
-using DoAnThucTapFin.Data;
-using DoAnThucTapFin.Repositories;
 using DoAnThucTapFin.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BookShoppingCartMvcUI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +18,8 @@ builder.Services
 	.AddDefaultUI()
 	.AddDefaultTokenProviders();
 builder.Services.AddTransient<IHomeRepository, HomeRepository>();
-
+builder.Services.AddTransient<ICartRepository, CartRepository>();
+builder.Services.AddTransient<IUserOrderRepository, UserOrderRepository>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

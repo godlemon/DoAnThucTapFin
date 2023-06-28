@@ -131,16 +131,7 @@
 								<span class="tag"> 23 đánh giá </span>
 								<span class="tag"> @pro.Brand </span>
 							</p>
-
-							<label class="custom-control mb-3 custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label">
-									Đặt hàng
-								</div>
-							</label>
-
-							<a href="#" class="btn btn-outline-primary"> <i class="fa fa-envelope"></i> Nhận thông báo </a>
-
+							<button type="button" onclick="add(@pro.Id)" class="btn btn-primary float-right">Thêm vào giỏ hàng</button>
 						</figcaption>
 					</figure>
 				</div> <!-- col.// -->
@@ -173,5 +164,30 @@
 		</nav>
 	</div> <!-- container .//  -->
 </section>
-<!-- ========================= SECTION CONTENT END// ========================= -->
+@section Scripts{
+	<script>
+		async function add(productId) {
+			var usernameEl = document.getElementById("username");
+			if (usernameEl == null) {
+				window.location.href = "/Identity/Account/Login";
+				//var username=usernameEl.innerText;
+				//  if(username.length<1){
+				//      window.location.href="/Identity/Account/Login";
+				//  }
+			}
+			try {
+				var response = await fetch(`/Cart/AddItem?productId=${productId}`);
+				if (response.status == 200) {
+					var result = await response.json();
+					var cartCountEl = document.getElementById("cartCount");
+					cartCountEl.innerHTML = result;
+					window.location.href = "#cartCount";
+				}
+			}
+			catch (err) {
+				console.log(err);
+			}
+		}
+	</script>
+}
 

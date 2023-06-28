@@ -1,4 +1,4 @@
-﻿
+﻿@model ProductDisplayModel
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -113,9 +113,7 @@
 							</div>
 						</div> <!-- col.// -->
 						<div class="form-group col-md">
-							<a href="#" class="btn  btn-primary">
-								<i class="fas fa-shopping-cart"></i> <span class="text">Đặt hàng</span>
-							</a>
+								<button type="button" onclick="add(@product.Id)" class="btn btn-primary">Thêm vào giỏ hàng</button>
 						</div> <!-- col.// -->
 					</div> <!-- row.// -->
 
@@ -127,4 +125,30 @@
 
 	</div> <!-- container .//  -->
 </section>
+@section Scripts{
+	<script>
+		async function add(productId) {
+			var usernameEl = document.getElementById("username");
+			if (usernameEl == null) {
+				window.location.href = "/Identity/Account/Login";
+				//var username=usernameEl.innerText;
+				//  if(username.length<1){
+				//      window.location.href="/Identity/Account/Login";
+				//  }
+			}
+			try {
+				var response = await fetch(`/Cart/AddItem?productId=${productId}`);
+				if (response.status == 200) {
+					var result = await response.json();
+					var cartCountEl = document.getElementById("cartCount");
+					cartCountEl.innerHTML = result;
+					window.location.href = "#cartCount";
+				}
+			}
+			catch (err) {
+				console.log(err);
+			}
+		}
+	</script>
+}
 <!-- ========================= SECTION CONTENT END// ========================= -->

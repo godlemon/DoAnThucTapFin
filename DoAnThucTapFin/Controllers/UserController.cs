@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DoAnThucTap.Controllers
+namespace DoAnThucTapFin.Controllers
 {
 	public class UserController : Controller
 	{

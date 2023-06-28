@@ -38,14 +38,14 @@
 							<ul class="menu-category">
 								@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags).Take(8))
 								{
-									<li><a href="#">@tag.Name</a></li>
+									<li><a asp-action="grid" asp-controller="Listing" asp-route-tagId="@tag.Id">@tag.Name</a></li>
 								}
 								<li class="has-submenu">
 									<a>Nhiều hơn</a>
 									<ul class="submenu">
 										@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags).Skip(8))
 										{
-											<li><a href="#">@tag.Name</a></li>
+											<li><a asp-action="grid" asp-controller="Listing" asp-route-tagId="@tag.Id">@tag.Name</a></li>
 										}
 									</ul>
 								</li>
@@ -129,11 +129,11 @@
 					int randomPercent = random.Next(10, 51);
 					<div class="col-md col-6">
 						<figure class="card-product-grid card-sm">
-							<a href="#" class="img-wrap">
+							<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="img-wrap">
 								<img src="@pro.Productimg">
 							</a>
 							<div class="text-wrap p-3">
-								<a href="#" class="title">@pro.Name</a>
+								<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="title">@pro.Name</a>
 								<span class="badge badge-danger"> -@randomPercent% </span>
 							</div>
 						</figure>
@@ -157,7 +157,7 @@
 					<div class="home-category-banner bg-light-orange">
 						<h5 class="title">Linh kiện và phụ kiện cho máy tính</h5>
 						<p>mua laptop hoặc có hóa đơn trên 14 triệu sẽ tặng kèm phụ kiện ngẫu nhiên </p>
-						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+						<a asp-action="grid" asp-controller="Listing" asp-route-tagId="8" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
 						<img src="~/uploads/tags/20230626221431.jpg" class="img-bg" />
 					</div>
 
@@ -172,7 +172,7 @@
 							if (pro.TagId != 3)
 							{
 								<li class="col-6 col-lg-3 col-md-4">
-									<a href="#" class="item">
+									<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="item">
 										<div class="card-body">
 											<h6 class="title">@pro.Name</h6>
 											<img class="img-sm float-right" src="@pro.Productimg">
@@ -206,7 +206,7 @@
 					<div class="home-category-banner bg-light-orange">
 						<h5 class="title">Laptop chính hãng</h5>
 						<p>Hỗ trợ cài đặt, bảo hành lên đến 3 năm, Đặc biệt ưu đãi với sinh viên</p>
-						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+						<a asp-action="grid" asp-controller="Listing" asp-route-tagId="3" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
 						<img src="~/images/items/14.jpg" class="img-bg">
 					</div>
 
@@ -221,7 +221,7 @@
 							if (pro.TagId == 3)
 							{
 								<li class="col-6 col-lg-3 col-md-4">
-									<a href="#" class="item">
+									<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="item">
 										<div class="card-body">
 											<h6 class="title">@pro.Name</h6>
 											<img class="img-sm float-right" src="@pro.Productimg">

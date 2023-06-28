@@ -1,12 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
-    @if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
     {
         <div class="widget-header mr-3">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                Xin chào khách hàng <span id="username">@User.Identity?.Name</span>!
+               <span id="username">@User.Identity?.Name</span>!
                 @if (User.IsInRole("Admin"))
                 {
                     <span>(Admin)</span>

@@ -14,5 +14,11 @@ namespace DoAnThucTapFin.Data
 		public DbSet<Product> products { get; set; }
 		public DbSet<Banner> banners { get; set; }
 		public DbSet<Tags> tags { get; set; }
+		public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+		public DbSet<CartDetail> CartDetails { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<OrderDetail> OrderDetails { get; set; }
+
+		public DbSet<OrderStatus> orderStatuses { get; set; }
 	}
 }

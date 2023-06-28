@@ -39,8 +39,9 @@ namespace DoAnThucTapFin.Areas.Admin.Models
         [DisplayName("Loại sản phẩm")]
         [ForeignKey("TagId")]
         public Tags tags { get; set; }
-
-        [NotMapped] 
+		public List<OrderDetail> OrderDetail { get; set; }
+		public List<CartDetail> CartDetail { get; set; }
+		[NotMapped] 
         public string tagname { get; set; }
 	}
 }

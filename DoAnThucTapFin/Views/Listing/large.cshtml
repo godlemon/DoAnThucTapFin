@@ -149,7 +149,7 @@
 										<p class="mb-3">
 											<span class="tag"> <i class="fa fa-check"></i> Bảo hành</span>
 											<span class="tag"> @randombh Năm </span>
-											<span class="tag"> @randomPercent Nhận sét </span>
+											<span class="tag"> @randomPercent Nhận xét </span>
 											<span class="tag"> @pro.Brand </span>
 										</p>
 									}
@@ -172,7 +172,7 @@
 								</div> <!-- info-main.// -->
 							</div> <!-- col.// -->
 							<aside class="col-sm-3">
-								<div class="info-aside">
+								<div class="info-aside d-flex flex-column">
 									<div class="price-wrap">
 										<span class="h5 price">@pro.Price đ</span>
 										<small class="text-muted">/sản phẩm</small>
@@ -180,16 +180,12 @@
 									<small class="text-warning">Thanh toán tín dụng</small>
 
 									<p class="text-muted mt-3">@pro.Brand</p>
-
-									<label class="custom-control mt-3 custom-checkbox">
-										<input type="checkbox" class="custom-control-input">
-										<div class="custom-control-label">
-											Thêm vào giỏ hàng
-										</div>
-									</label>
-
+									<div class="mt-auto">
+										<button type="button" onclick="add(@pro.Id)" class="btn btn-primary">Thêm vào giỏ hàng</button>
+									</div>
 								</div> <!-- info-aside.// -->
 							</aside> <!-- col.// -->
+
 						</div> <!-- row.// -->
 					</article> <!-- card-product .// -->
 				}
@@ -223,54 +219,79 @@
 	</div> <!-- container .//  -->
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
-<script>
-	function updatePriceRange() {
-		var priceRange = document.getElementById('priceRange');
-		var minPrice = document.getElementById('minPrice');
-		var maxPrice = document.getElementById('maxPrice');
-
-		var rangeValue = priceRange.value;
-		var maxValue = 300000000; // Giá trị tối đa cho maxPrice
-		var minValue = 500000; // Giá trị tối thiểu cho minPrice
-
-		var calculatedMinPrice = minValue + ((maxValue - minValue) * (rangeValue / 100));
-		var calculatedMaxPrice = maxValue - ((maxValue - minValue) * (rangeValue / 100));
-
-		minPrice.value = calculatedMinPrice.toFixed(2);
-		maxPrice.value = calculatedMaxPrice.toFixed(2);
-	}
-
-	function updateMinPrice() {
-		var minPrice = document.getElementById('minPrice');
-		var maxPrice = document.getElementById('maxPrice');
-		var priceRange = document.getElementById('priceRange');
-
-		var minValue = parseFloat(minPrice.value);
-		var maxValue = parseFloat(maxPrice.value);
-
-		if (minValue >= maxValue) {
-			maxValue = minValue;
-			priceRange.value = 100;
-		} else {
-			var rangeValue = ((minValue - 500000) / (300000000 - 500000)) * 100;
-			priceRange.value = rangeValue;
+@section Scripts{
+	<script>
+		async function add(productId) {
+			var usernameEl = document.getElementById("username");
+			if (usernameEl == null) {
+				window.location.href = "/Identity/Account/Login";
+				//var username=usernameEl.innerText;
+				//  if(username.length<1){
+				//      window.location.href="/Identity/Account/Login";
+				//  }
+			}
+			try {
+				var response = await fetch(`/Cart/AddItem?productId=${productId}`);
+				if (response.status == 200) {
+					var result = await response.json();
+					var cartCountEl = document.getElementById("cartCount");
+					cartCountEl.innerHTML = result;
+					window.location.href = "#cartCount";
+				}
+			}
+			catch (err) {
+				console.log(err);
+			}
 		}
-	}
 
-	function updateMaxPrice() {
-		var minPrice = document.getElementById('minPrice');
-		var maxPrice = document.getElementById('maxPrice');
-		var priceRange = document.getElementById('priceRange');
+		function updatePriceRange() {
+			var priceRange = document.getElementById('priceRange');
+			var minPrice = document.getElementById('minPrice');
+			var maxPrice = document.getElementById('maxPrice');
 
-		var minValue = parseFloat(minPrice.value);
-		var maxValue = parseFloat(maxPrice.value);
+			var rangeValue = priceRange.value;
+			var maxValue = 300000000; // Giá trị tối đa cho maxPrice
+			var minValue = 500000; // Giá trị tối thiểu cho minPrice
 
-		if (maxValue <= minValue) {
-			minValue = maxValue;
-			priceRange.value = 0;
-		} else {
-			var rangeValue = ((maxValue - 500000) / (300000000 - 500000)) * 100;
-			priceRange.value = rangeValue;
+			var calculatedMinPrice = minValue + ((maxValue - minValue) * (rangeValue / 100));
+			var calculatedMaxPrice = maxValue - ((maxValue - minValue) * (rangeValue / 100));
+
+			minPrice.value = calculatedMinPrice.toFixed(2);
+			maxPrice.value = calculatedMaxPrice.toFixed(2);
 		}
-	}
-</script>
+
+		function updateMinPrice() {
+			var minPrice = document.getElementById('minPrice');
+			var maxPrice = document.getElementById('maxPrice');
+			var priceRange = document.getElementById('priceRange');
+
+			var minValue = parseFloat(minPrice.value);
+			var maxValue = parseFloat(maxPrice.value);
+
+			if (minValue >= maxValue) {
+				maxValue = minValue;
+				priceRange.value = 100;
+			} else {
+				var rangeValue = ((minValue - 500000) / (300000000 - 500000)) * 100;
+				priceRange.value = rangeValue;
+			}
+		}
+
+		function updateMaxPrice() {
+			var minPrice = document.getElementById('minPrice');
+			var maxPrice = document.getElementById('maxPrice');
+			var priceRange = document.getElementById('priceRange');
+
+			var minValue = parseFloat(minPrice.value);
+			var maxValue = parseFloat(maxPrice.value);
+
+			if (maxValue <= minValue) {
+				minValue = maxValue;
+				priceRange.value = 0;
+			} else {
+				var rangeValue = ((maxValue - 500000) / (300000000 - 500000)) * 100;
+				priceRange.value = rangeValue;
+			}
+		}
+	</script>
+}
