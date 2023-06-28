@@ -1,0 +1,277 @@
+﻿@using DoAnThucTapFin.Areas.Admin.Models;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+	<!-- ========================= SECTION MAIN  ========================= -->
+	<section class="section-main padding-y">
+		<main class="card">
+			<div class="card-body">
+				<div class="col-xl-6 col-lg-5 float-right">
+					<form asp-action="grid" asp-controller="Listing" class="search-header">
+						<div class="input-group w-100">
+                            <select class="custom-select border-right" id="tagid" name="tagid">
+                                <option value="">Tất cả</option>
+								@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags))
+								{
+									<option value="@tag.Id">@tag.Name</option>
+								}
+								
+							</select>
+							<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Search">
+
+							<div class="input-group-append">
+								<button class="btn btn-primary" type="submit">
+									<i class="fa fa-search"></i> Tìm
+								</button>
+							</div>
+						</div>
+					</form> <!-- search-wrap .end// -->
+				</div> <!-- col.// -->
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<aside class="col-lg col-md-3 flex-lg-grow-0">
+						<h6>Các Sản Phẩm</h6>
+						<nav class="nav-home-aside">
+							<ul class="menu-category">
+								@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags).Take(8))
+								{
+									<li><a href="#">@tag.Name</a></li>
+								}
+								<li class="has-submenu">
+									<a>Nhiều hơn</a>
+									<ul class="submenu">
+										@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags).Skip(8))
+										{
+											<li><a href="#">@tag.Name</a></li>
+										}
+									</ul>
+								</li>
+							</ul>
+						</nav>
+					</aside> <!-- col.// -->
+					<div class="col-md-9 col-xl-7 col-lg-7">
+
+						<!-- ================== COMPONENT SLIDER  BOOTSTRAP  ==================  -->
+						<div id="carousel1_indicator" class="slider-home-banner carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								<li data-target="#carousel1_indicator" data-slide-to="0" class="active"></li>
+								<li data-target="#carousel1_indicator" data-slide-to="1"></li>
+								<li data-target="#carousel1_indicator" data-slide-to="2"></li>
+							</ol>
+							<div class="carousel-inner">
+								<div class="carousel-item active">
+                                    <img src="~/uploads/banner/20230626191710.jpg" alt="First slide">
+								</div>
+								@foreach (var banner in ViewBag.Banners)
+								{
+									<div class="carousel-item">
+										<img src="@banner.Url" />
+									</div>
+								}
+							</div>
+							<a class="carousel-control-prev" href="#carousel1_indicator" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carousel1_indicator" role="button" data-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+						<!-- ==================  COMPONENT SLIDER BOOTSTRAP end.// ==================  .// -->
+
+					</div> <!-- col.// -->
+					<div class="col-md d-none d-lg-block flex-grow-1">
+						<aside class="special-home-right">
+							<h6 class="bg-blue text-center text-white mb-0 p-2">Phổ biến</h6>
+							@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags).Take(3))
+							{
+								<div class="card-banner border-bottom">
+									<div class="py-3" style="width:80%">
+										<h6 class="card-title">@tag.Name</h6>
+										<a asp-action="grid" asp-controller="Listing" asp-route-tagId="@tag.Id" class="btn btn-secondary btn-sm">Xem ngay</a>
+									</div>
+									<img src="@tag.Image" height="80" class="img-bg">
+								</div>
+							}
+						</aside>
+					</div> <!-- col.// -->
+				</div> <!-- row.// -->
+
+			</div> <!-- card-body.// -->
+		</main> <!-- card.// -->
+
+	</section>
+	<!-- ========================= SECTION MAIN END// ========================= -->
+	<!-- =============== SECTION DEAL =============== -->
+	<section class="padding-bottom">
+		<div class="card card-deal">
+			<div class="col-heading content-body">
+				<header class="section-heading">
+					<h3 class="section-title">Giá sốc</h3>
+					<p>Chỉ còn</p>
+				</header><!-- sect-heading -->
+				<div class="timer">
+					<div> <span class="num">04</span> <small>Ngày</small></div>
+					<div> <span class="num">12</span> <small>Giờ</small></div>
+					<div> <span class="num">58</span> <small>Phút</small></div>
+					<div> <span class="num">02</span> <small>Giây</small></div>
+				</div>
+			</div> <!-- col.// -->
+			<div class="row no-gutters items-wrap">
+				
+				@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product).Take(5))
+				{
+					Random random = new Random();
+					int randomPercent = random.Next(10, 51);
+					<div class="col-md col-6">
+						<figure class="card-product-grid card-sm">
+							<a href="#" class="img-wrap">
+								<img src="@pro.Productimg">
+							</a>
+							<div class="text-wrap p-3">
+								<a href="#" class="title">@pro.Name</a>
+								<span class="badge badge-danger"> -@randomPercent% </span>
+							</div>
+						</figure>
+					</div>
+				}
+			</div>
+		</div>
+
+	</section>
+	<!-- =============== SECTION DEAL // END =============== -->
+	<!-- =============== SECTION 1 =============== -->
+	<section class="padding-bottom">
+		<header class="section-heading heading-line">
+			<h4 class="title-section text-uppercase">Phụ kiện</h4>
+		</header>
+
+		<div class="card card-home-category">
+			<div class="row no-gutters">
+				<div class="col-md-3">
+
+					<div class="home-category-banner bg-light-orange">
+						<h5 class="title">Linh kiện và phụ kiện cho máy tính</h5>
+						<p>mua laptop hoặc có hóa đơn trên 14 triệu sẽ tặng kèm phụ kiện ngẫu nhiên </p>
+						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+						<img src="~/uploads/tags/20230626221431.jpg" class="img-bg" />
+					</div>
+
+				</div> <!-- col.// -->
+				<div class="col-md-9">
+					<ul class="row no-gutters bordered-cols">
+						@{
+							var count = 0;
+						}
+						@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product))
+						{
+							if (pro.TagId != 3)
+							{
+								<li class="col-6 col-lg-3 col-md-4">
+									<a href="#" class="item">
+										<div class="card-body">
+											<h6 class="title">@pro.Name</h6>
+											<img class="img-sm float-right" src="@pro.Productimg">
+											<p class="text-muted"><i class="fa fa-map-marker-alt"></i>@pro.Brand</p>
+										</div>
+									</a>
+								</li>
+								count++;
+								if (count >= 8)
+								{
+									break;
+								}
+							}
+						}
+					</ul>
+				</div> <!-- col.// -->
+			</div> <!-- row.// -->
+		</div> <!-- card.// -->
+	</section>
+	<!-- =============== SECTION 1 END =============== -->
+	<!-- =============== SECTION 2 =============== -->
+	<section class="padding-bottom">
+		<header class="section-heading heading-line">
+			<h4 class="title-section text-uppercase">Laptop</h4>
+		</header>
+
+		<div class="card card-home-category">
+			<div class="row no-gutters">
+				<div class="col-md-3">
+
+					<div class="home-category-banner bg-light-orange">
+						<h5 class="title">Laptop chính hãng</h5>
+						<p>Hỗ trợ cài đặt, bảo hành lên đến 3 năm, Đặc biệt ưu đãi với sinh viên</p>
+						<a href="#" class="btn btn-outline-primary rounded-pill">Xem ngay</a>
+						<img src="~/images/items/14.jpg" class="img-bg">
+					</div>
+
+				</div> <!-- col.// -->
+				<div class="col-md-9">
+					<ul class="row no-gutters bordered-cols">
+						@{
+							var count2 = 0;
+						}
+						@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product))
+						{
+							if (pro.TagId == 3)
+							{
+								<li class="col-6 col-lg-3 col-md-4">
+									<a href="#" class="item">
+										<div class="card-body">
+											<h6 class="title">@pro.Name</h6>
+											<img class="img-sm float-right" src="@pro.Productimg">
+											<p class="text-muted"><i class="fa fa-map-marker-alt"></i>@pro.Brand</p>
+										</div>
+									</a>
+								</li>
+								count2++;
+								if (count2 >= 8)
+								{
+									break;
+								}
+							}
+						}
+					</ul>
+				</div> <!-- col.// -->
+			</div> <!-- row.// -->
+		</div> <!-- card.// -->
+	</section>
+	<!-- =============== SECTION 2 END =============== -->
+	
+	<!-- =============== SECTION ITEMS =============== -->
+	<section class="padding-bottom-sm">
+
+		<header class="section-heading heading-line">
+			<h4 class="title-section text-uppercase">Sản phẩm Trending</h4>
+		</header>
+
+		<div class="row row-sm">
+			@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product).Take(12))
+			{
+				Random random = new Random();
+				int randomPercent = random.Next(60, 121);
+				<div class="col-xl-2 col-lg-3 col-md-4 col-6">
+					<div href="#" class="card card-sm card-product-grid">
+						<a href="#" class="img-wrap"> <img src="@pro.Productimg"> </a>
+						<figcaption class="info-wrap">
+							<a href="#" class="title">@pro.Name</a>
+							<div class="price mt-1">$@randomPercent</div>
+						</figcaption>
+					</div>
+				</div>
+			}
+		</div> <!-- row.// -->
+	</section>
+	<!-- =============== SECTION ITEMS .//END =============== -->
+
+	<article class="my-4">
+		<img src="~/images/banners/ad-sm.png" class="w-100">
+	</article>
+</div>
+<!-- container end.// -->
+<!-- ========================= SECTION SUBSCRIBE  ========================= -->

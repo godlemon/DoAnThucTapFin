@@ -1,0 +1,271 @@
+﻿@model ProductDisplayModel
+@{
+    ViewData["Title"] = "large";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section-content padding-y">
+	<div class="container">
+
+
+		<!-- ============================  FILTER TOP  ================================= -->
+		<div class="card mb-3">
+			<div class="card-body">
+				<ol class="breadcrumb float-left">
+					<li class="breadcrumb-item"><a href="#">Home</a></li>
+					<li class="breadcrumb-item"><a href="#">Category name</a></li>
+					<li class="breadcrumb-item active">Item details</li>
+				</ol>
+			</div> <!-- card-body .// -->
+		</div> <!-- card.// -->
+		<!-- ============================ FILTER TOP END.// ================================= -->
+
+
+		<div class="row">
+			<aside class="col-md-2">
+				<article class="filter-group">
+					<h6 class="title">
+						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Hãng </a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_2">
+						<div class="inner">
+							@{
+								List<string> tempList = new List<string>();
+							}
+
+							@foreach (var pro in Model.products)
+							{
+								if (!tempList.Contains(pro.Brand))
+								{
+									tempList.Add(pro.Brand);
+									int count = Model.products.Count(p => p.Brand == pro.Brand);
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" checked="" class="custom-control-input">
+										<div class="custom-control-label">
+											@pro.Brand
+											<b class="badge badge-pill badge-light float-right">@count</b>
+										</div>
+									</label>
+								}
+							}
+						</div> <!-- inner.// -->
+					</div>
+				</article> <!-- filter-group .// -->
+				<article class="filter-group">
+					<h6 class="title">
+						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_5"> Loại sản phẩm </a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_5">
+						<div class="inner">
+							<label class="custom-control custom-radio">
+								<input type="radio" name="myfilter_radio" checked="" class="custom-control-input">
+								<div class="custom-control-label">Laptop</div>
+							</label>
+							<label class="custom-control custom-radio">
+								<input type="radio" name="myfilter_radio" class="custom-control-input">
+								<div class="custom-control-label">Phụ kiện</div>
+							</label>
+						</div> <!-- inner.// -->
+					</div>
+				</article> <!-- filter-group .// -->
+				<article class="filter-group">
+					<h6 class="title">
+						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3">Giá thành</a>
+					</h6>
+					<div class="filter-content collapse show" id="collapse_3">
+						<div class="inner">
+							<input type="range" class="custom-range" min="0" max="100" name="priceRange" id="priceRange" oninput="updatePriceRange()">
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Min</label>
+									<input class="form-control" placeholder="$0" type="number" id="minPrice" onchange="updateMinPrice()">
+								</div>
+								<div class="form-group text-right col-md-6">
+									<label>Max</label>
+									<input class="form-control" placeholder="$1,0000" type="number" id="maxPrice" onchange="updateMaxPrice()">
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</article> <!-- filter-group .// -->
+
+                <button class="btn btn-block btn-primary">Xác nhận</button>
+			</aside> <!-- col.// -->
+			<main class="col-md-10">
+
+
+				<header class="mb-3">
+					<div class="form-inline">
+						<strong class="mr-md-auto">@Model.products.Count() kết quả </strong>
+						<div class="btn-group">
+							<a asp-action="grid" class="btn btn-light" data-toggle="tooltip" title="List view">
+								<i class="fa fa-bars"></i>
+							</a>
+							<a asp-action="large" class="btn btn-light active" data-toggle="tooltip" title="Grid view">
+								<i class="fa fa-th"></i>
+							</a>
+						</div>
+					</div>
+				</header><!-- sect-heading -->
+
+				@foreach (var pro in Model.products)
+				{
+					<article class="card card-product-list">
+						<div class="row no-gutters">
+							<aside class="col-md-3">
+								<a href="#" class="img-wrap">
+									<span class="badge badge-danger"> NEW </span>
+									<img src="@pro.Productimg" alt="product">
+								</a>
+							</aside> <!-- col.// -->
+							<div class="col-md-6">
+								<div class="info-main">
+									<a href="#" class="h5 title">@pro.Name</a>
+									<div class="rating-wrap mb-2">
+										<ul class="rating-stars">
+											<li style="width:100%" class="stars-active">
+												<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+												<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</li>
+											<li>
+												<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+												<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</li>
+										</ul>
+										<div class="label-rating">9/10</div>
+									</div> <!-- rating-wrap.// -->
+									@{
+										Random random = new Random();
+										int randomPercent = random.Next(30, 99);
+										int randombh = random.Next(4, 9);
+										<p class="mb-3">
+											<span class="tag"> <i class="fa fa-check"></i> Bảo hành</span>
+											<span class="tag"> @randombh Năm </span>
+											<span class="tag"> @randomPercent Nhận sét </span>
+											<span class="tag"> @pro.Brand </span>
+										</p>
+									}
+									@if(pro.TagId == 3)
+									{
+										<p>
+											Laptop gaming thế hệ mới, phù hợp cho mọi đối tượng, mua ngay và hưởng ưu đãi tặng kèm một phụ kiện ngẫu nhiên
+											kèm ưu đãi bảo hành linh kiện 9 tháng.
+										</p>
+									}
+									else
+									{
+										<p>
+											Cải thiện chất lượng sống, nâng cao trải nghiệm laptop với card đồ họa thế hệ mới, độ ổn định cao, bảo hành 6 tháng
+											cho người dùng có hóa đơn từ 12 triệu.
+										</p>
+									}
+
+
+								</div> <!-- info-main.// -->
+							</div> <!-- col.// -->
+							<aside class="col-sm-3">
+								<div class="info-aside">
+									<div class="price-wrap">
+										<span class="h5 price">@pro.Price đ</span>
+										<small class="text-muted">/sản phẩm</small>
+									</div> <!-- price-wrap.// -->
+									<small class="text-warning">Thanh toán tín dụng</small>
+
+									<p class="text-muted mt-3">@pro.Brand</p>
+
+									<label class="custom-control mt-3 custom-checkbox">
+										<input type="checkbox" class="custom-control-input">
+										<div class="custom-control-label">
+											Thêm vào giỏ hàng
+										</div>
+									</label>
+
+								</div> <!-- info-aside.// -->
+							</aside> <!-- col.// -->
+						</div> <!-- row.// -->
+					</article> <!-- card-product .// -->
+				}
+
+				<nav class="mb-4" aria-label="Page navigation sample">
+					<ul class="pagination">
+						@if (Model.Pagination.CurrentPage > 1)
+						{
+							<li class="page-item">
+								<a class="page-link" href="@Url.Action("lager", new { sterm = Model.STerm, tagid = Model.tagid, page = Model.Pagination.CurrentPage - 1 })">Previous</a>
+							</li>
+						}
+						@for (int i = 1; i <= Model.Pagination.TotalPages; i++)
+						{
+							<li class="page-item @(i == Model.Pagination.CurrentPage ? "active" : "")">
+								<a class="page-link" href="@Url.Action("large", new { sterm = Model.STerm, tagid = Model.tagid, page = i })">@i</a>
+							</li>
+						}
+						@if (Model.Pagination.CurrentPage < Model.Pagination.TotalPages)
+						{
+							<li class="page-item">
+								<a class="page-link" href="@Url.Action("large", new { sterm = Model.STerm, tagid = Model.tagid, page = Model.Pagination.CurrentPage + 1 })">Next</a>
+							</li>
+						}
+					</ul>
+				</nav>
+			</main> <!-- col.// -->
+
+		</div>
+
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<script>
+	function updatePriceRange() {
+		var priceRange = document.getElementById('priceRange');
+		var minPrice = document.getElementById('minPrice');
+		var maxPrice = document.getElementById('maxPrice');
+
+		var rangeValue = priceRange.value;
+		var maxValue = 300000000; // Giá trị tối đa cho maxPrice
+		var minValue = 500000; // Giá trị tối thiểu cho minPrice
+
+		var calculatedMinPrice = minValue + ((maxValue - minValue) * (rangeValue / 100));
+		var calculatedMaxPrice = maxValue - ((maxValue - minValue) * (rangeValue / 100));
+
+		minPrice.value = calculatedMinPrice.toFixed(2);
+		maxPrice.value = calculatedMaxPrice.toFixed(2);
+	}
+
+	function updateMinPrice() {
+		var minPrice = document.getElementById('minPrice');
+		var maxPrice = document.getElementById('maxPrice');
+		var priceRange = document.getElementById('priceRange');
+
+		var minValue = parseFloat(minPrice.value);
+		var maxValue = parseFloat(maxPrice.value);
+
+		if (minValue >= maxValue) {
+			maxValue = minValue;
+			priceRange.value = 100;
+		} else {
+			var rangeValue = ((minValue - 500000) / (300000000 - 500000)) * 100;
+			priceRange.value = rangeValue;
+		}
+	}
+
+	function updateMaxPrice() {
+		var minPrice = document.getElementById('minPrice');
+		var maxPrice = document.getElementById('maxPrice');
+		var priceRange = document.getElementById('priceRange');
+
+		var minValue = parseFloat(minPrice.value);
+		var maxValue = parseFloat(maxPrice.value);
+
+		if (maxValue <= minValue) {
+			minValue = maxValue;
+			priceRange.value = 0;
+		} else {
+			var rangeValue = ((maxValue - 500000) / (300000000 - 500000)) * 100;
+			priceRange.value = rangeValue;
+		}
+	}
+</script>

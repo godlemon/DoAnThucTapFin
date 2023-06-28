@@ -1,0 +1,177 @@
+﻿@model ProductDisplayModel
+
+@{
+	ViewData["Title"] = "grid";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="section-content padding-y">
+	<div class="container">
+		<!-- ============================  FILTER TOP  ================================= -->
+		<div class="card mb-3">
+			<div class="card-body">
+				<div class="row">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+							@if (ViewContext.RouteData.Values["controller"] != null)
+							{
+							}
+							@if (ViewContext.RouteData.Values["action"] != null)
+							{
+								<li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+							}
+						</ol>
+					</nav>
+				</div> <!-- row.// -->
+				<hr>
+				<div class="row">
+					<div class="col-md-2">Lọc sản phẩm</div> <!-- col.// -->
+					<form asp-action="grid" asp-controller="Listing" class="col-md-10">
+						<ul class="list-inline">
+							<li class="list-inline-item mr-3 dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Loại sản phẩm</a>
+								<div class="dropdown-menu p-3" style="max-width:400px;">
+									@foreach (var tag in Model.tags)
+									{
+										<label class="form-check">
+											<input value="@tag.Id" type="radio" name="tagid" class="form-check-input">@tag.Name
+										</label>
+									}
+								</div> <!-- dropdown-menu.// -->
+							</li>
+							<li class="list-inline-item mr-3 dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">  Hãng </a>
+								<div class="dropdown-menu p-3">
+									@{
+										List<string> tempList = new List<string>();
+									}
+
+									@foreach (var pro in Model.products)
+									{
+										if (!tempList.Contains(pro.Brand))
+										{
+											tempList.Add(pro.Brand);
+											<label class="form-check">
+												<input type="checkbox" class="form-check-input"> @pro.Brand
+											</label>
+										}
+									}
+
+								</div> <!-- dropdown-menu.// -->
+							</li>
+							<li class="list-inline-item mr-3">
+								<div class="form-inline">
+									<label class="mr-2">Giá</label>
+									<input class="form-control form-control-sm" placeholder="Min" type="number">
+									<span class="px-2"> - </span>
+									<input class="form-control form-control-sm" placeholder="Max" type="number">
+										
+								</div>
+                            </li>
+                            <button type="submit" class="btn btn-sm btn-light ml-2">Ok</button>
+                        </ul>
+						
+                    </form> <!-- col.// -->
+				</div> <!-- row.// -->
+			</div> <!-- card-body .// -->
+		</div> <!-- card.// -->
+		<!-- ============================ FILTER TOP END.// ================================= -->
+
+		<header class="mb-3">
+			<div class="form-inline">
+				<strong class="mr-md-auto">@Model.products.Count() kết quả </strong>
+				<select class="mr-2 form-control">
+					<option>Latest items</option>
+					<option>Trending</option>
+					<option>Most Popular</option>
+					<option>Cheapest</option>
+				</select>
+				<div class="btn-group">
+					<a asp-action="grid" class="btn btn-light active" data-toggle="tooltip" title="Thẻ">
+						<i class="fa fa-bars"></i>
+					</a>
+					<a asp-action="large" class="btn btn-light" data-toggle="tooltip" title="Hàng">
+						<i class="fa fa-th"></i>
+					</a>
+				</div>
+			</div>
+		</header><!-- sect-heading -->
+
+		<div class="row">
+			@foreach (var pro in Model.products)
+			{
+				<div class="col-md-3">
+					<figure class="card card-product-grid">
+						<div class="img-wrap">
+							<span class="badge badge-danger"> NEW </span>
+							<img style="width: 300px; height: 250px" src="@pro.Productimg" alt="product">
+						</div> <!-- img-wrap.// -->
+						<figcaption class="info-wrap">
+							<a href="#" class="title mb-2">@pro.Name</a>
+							<div class="price-wrap">
+								<span class="price">@pro.Price đ</span>
+								<small class="text-muted">/sản phẩm</small>
+							</div> <!-- price-wrap.// -->
+
+							<p class="mb-2"> @pro.Quantity  <small class="text-muted">Còn lại</small></p>
+							@if(pro.TagId == 3){
+								<p class="text-muted ">Độ phân giải @pro.Resolution</p>
+							}
+							else
+							{
+								<p class="text-muted ">Tặng kèm nếu mua Laptop</p>
+							}
+
+
+							<hr>
+
+							<p class="mb-3">
+								<span class="tag"> <i class="fa fa-check"></i> Bảo hành</span>
+								<span class="tag"> 2 Năm </span>
+								<span class="tag"> 23 đánh giá </span>
+								<span class="tag"> @pro.Brand </span>
+							</p>
+
+							<label class="custom-control mb-3 custom-checkbox">
+								<input type="checkbox" class="custom-control-input">
+								<div class="custom-control-label">
+									Đặt hàng
+								</div>
+							</label>
+
+							<a href="#" class="btn btn-outline-primary"> <i class="fa fa-envelope"></i> Nhận thông báo </a>
+
+						</figcaption>
+					</figure>
+				</div> <!-- col.// -->
+			}
+			
+		</div> <!-- row end.// -->
+
+
+		<nav class="mb-4" aria-label="Page navigation sample">
+			<ul class="pagination">
+				@if (Model.Pagination.CurrentPage > 1)
+				{
+					<li class="page-item">
+						<a class="page-link" href="@Url.Action("grid", new { sterm = Model.STerm, tagid = Model.tagid, page = Model.Pagination.CurrentPage - 1 })">Previous</a>
+					</li>
+				}
+				@for (int i = 1; i <= Model.Pagination.TotalPages; i++)
+				{
+					<li class="page-item @(i == Model.Pagination.CurrentPage ? "active" : "")">
+						<a class="page-link" href="@Url.Action("grid", new { sterm = Model.STerm, tagid = Model.tagid, page = i })">@i</a>
+					</li>
+				}
+				@if (Model.Pagination.CurrentPage < Model.Pagination.TotalPages)
+				{
+					<li class="page-item">
+						<a class="page-link" href="@Url.Action("grid", new { sterm = Model.STerm, tagid = Model.tagid, page = Model.Pagination.CurrentPage + 1 })">Next</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
