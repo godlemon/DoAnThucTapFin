@@ -12,9 +12,14 @@
 		<div class="card mb-3">
 			<div class="card-body">
 				<ol class="breadcrumb float-left">
-					<li class="breadcrumb-item"><a href="#">Home</a></li>
-					<li class="breadcrumb-item"><a href="#">Category name</a></li>
-					<li class="breadcrumb-item active">Item details</li>
+					<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+					@if (ViewContext.RouteData.Values["controller"] != null)
+					{
+					}
+					@if (ViewContext.RouteData.Values["action"] != null)
+					{
+						<li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+					}
 				</ol>
 			</div> <!-- card-body .// -->
 		</div> <!-- card.// -->
@@ -116,7 +121,7 @@
 							<aside class="col-md-3">
 								<a href="#" class="img-wrap">
 									<span class="badge badge-danger"> NEW </span>
-									<img src="@pro.Productimg" alt="product">
+									<img src="@pro.Productimg" alt="@pro.Name">
 								</a>
 							</aside> <!-- col.// -->
 							<div class="col-md-6">
