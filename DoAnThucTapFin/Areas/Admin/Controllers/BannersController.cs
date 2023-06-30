@@ -9,9 +9,12 @@ using DoAnThucTapFin.Areas.Admin.Models;
 using DoAnThucTapFin.Services;
 using DoAnThucTapFin.Constants;
 using DoAnThucTapFin.Data;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace DoAnThucTapFin.Areas.Admin.Controllers
 {
+    [Authorize(Roles = nameof(Roles.Admin))]
     [Area("Admin")]
     public class BannersController : Controller
     {

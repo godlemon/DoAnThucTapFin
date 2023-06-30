@@ -27,13 +27,13 @@ namespace DoAnThucTapFin.Areas.Admin.Models
         [DisplayName("Số lượng")]
         public int Quantity { get; set; }
 
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Hãy điền đúng giá trị")]
-        [Column(TypeName = "decimal(8, 2)")]
-        public decimal Price { get; set; }
+        [Required(ErrorMessage = "Hãy điền đúng giá trị")]
+        [DisplayName("Giá tiền")]
+        public double Price { get; set; }
 
         [DisplayName("Ảnh sản phẩm")]
         public string? Productimg { get; set; }
+        [DisplayName("Loại sản phẩm")]
         public int TagId { get; set; }
 
         [DisplayName("Loại sản phẩm")]

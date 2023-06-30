@@ -10,9 +10,12 @@ using DoAnThucTapFin.Services;
 using DoAnThucTapFin.Constants;
 using DoAnThucTapFin.Data;
 using DoAnThucTapFin.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace DoAnThucTapFin.Areas.Admin.Controllers
 {
+    [Authorize(Roles = nameof(Roles.Admin))]
     [Area("Admin")]
     public class ProductsController : Controller
     {
@@ -62,7 +65,7 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Brand,Resolution,Quantity,TagId")] Product product, IFormFile file)
+        public async Task<IActionResult> Create([Bind("Id,Name,Brand,Resolution,Price,Quantity,TagId")] Product product, IFormFile file)
         {
             ViewBag.Tags = new SelectList(_context.tags, "Id", "Name", product.TagId);
             if (file != null)

@@ -100,11 +100,11 @@
 		<div class="row">
 			@foreach (var pro in Model.products)
 			{
-				<div class="col-md-3">
+				<div class="col-md-3" style="200px">
 					<figure class="card card-product-grid">
 						<div class="img-wrap">
 							<span class="badge badge-danger"> NEW </span>
-							<img style="width: 300px; height: 250px" src="@pro.Productimg" alt="@pro.Name">
+							<img style="width: 100%; height: auto" src="~/@pro.Productimg" alt="@pro.Name">
 						</div> <!-- img-wrap.// -->
 						<figcaption class="info-wrap">
 							<a href="#" class="title mb-2">@pro.Name</a>

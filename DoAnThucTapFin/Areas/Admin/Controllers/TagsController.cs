@@ -9,10 +9,12 @@ using DoAnThucTapFin.Models;
 using DoAnThucTapFin.Constants;
 using DoAnThucTapFin.Services;
 using DoAnThucTapFin.Data;
+using Microsoft.AspNetCore.Authorization;
 using DoAnThucTapFin.Areas.Admin.Models;
 
 namespace DoAnThucTapFin.Areas.Admin.Controllers
 {
+    [Authorize(Roles = nameof(Roles.Admin))]
     [Area("Admin")]
     public class tagsController : Controller
     {

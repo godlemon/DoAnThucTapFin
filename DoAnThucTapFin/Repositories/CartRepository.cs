@@ -50,7 +50,7 @@ namespace DoAnThucTapFin.Repositories
                         productid = productId,
                         ShoppingCartId = cart.Id,
                         Quantity = qty,
-                        UnitPrice = (double)product.Price  // it is a new line after update
+                        UnitPrice = product.Price  // it is a new line after update
                     };
                     _db.CartDetails.Add(cartItem);
                 }
