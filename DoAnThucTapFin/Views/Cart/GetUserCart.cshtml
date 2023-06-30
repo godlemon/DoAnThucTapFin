@@ -26,14 +26,7 @@
                             <tr>
                                 <td>@item.products.Name</td>
                                 <td>
-                                    @if (string.IsNullOrEmpty(item.products.Productimg))
-                                    {
-                                        <img src="/images/NoImage.png" style="width:80px;height:100px" />
-                                    }
-                                    else
-                                    {
-                                        <img src="@item.products.Productimg" style="width:80px;height:100px" />
-                                    }
+                                    <img src="~/@item.products.Productimg" style="width:80px;height:100px" />
                                 </td>
                                 <td>@item.products.tags.Name</td>
                                 <td>@item.products.Price X @item.Quantity</td>

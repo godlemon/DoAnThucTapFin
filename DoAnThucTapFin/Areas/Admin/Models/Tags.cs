@@ -11,7 +11,9 @@ namespace DoAnThucTapFin.Areas.Admin.Models
         [Required(ErrorMessage = "Tên danh mục là bắt buộc.")]
         [DisplayName("Danh mục")]
         public string Name { get; set; }
+        [DisplayName("Miêu tả")]
         public string Description { get; set; }
+        [DisplayName("Ảnh")]
         public string? Image { get; set; }
         public ICollection<Product> Products { get; set; }
     }

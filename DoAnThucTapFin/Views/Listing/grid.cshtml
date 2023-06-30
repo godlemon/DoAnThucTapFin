@@ -104,10 +104,10 @@
 					<figure class="card card-product-grid">
 						<div class="img-wrap">
 							<span class="badge badge-danger"> NEW </span>
-							<img style="width: 100%; height: auto" src="~/@pro.Productimg" alt="@pro.Name">
+							<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id"><img style="width: 100%; height: auto" src="~/@pro.Productimg" alt="@pro.Name"></a>
 						</div> <!-- img-wrap.// -->
 						<figcaption class="info-wrap">
-							<a href="#" class="title mb-2">@pro.Name</a>
+							<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="title mb-2">@pro.Name</a>
 							<div class="price-wrap">
 								<span class="price">@pro.Price đ</span>
 								<small class="text-muted">/sản phẩm</small>
