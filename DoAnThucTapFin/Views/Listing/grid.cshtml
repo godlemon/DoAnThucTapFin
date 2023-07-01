@@ -1,7 +1,7 @@
 ﻿@model ProductDisplayModel
 
 @{
-	ViewData["Title"] = "grid";
+	ViewData["Title"] = "Danh sách";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <section class="section-content padding-y">
@@ -9,20 +9,43 @@
 		<!-- ============================  FILTER TOP  ================================= -->
 		<div class="card mb-3">
 			<div class="card-body">
-				<div class="row">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-							@if (ViewContext.RouteData.Values["controller"] != null)
-							{
-							}
-							@if (ViewContext.RouteData.Values["action"] != null)
-							{
-								<li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
-							}
-						</ol>
-					</nav>
+				<div class="row justify-content-start">
+					<div class="col-xl-6 col-lg-5">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+								@if (ViewContext.RouteData.Values["controller"] != null)
+								{
+								}
+								@if (ViewContext.RouteData.Values["action"] != null)
+								{
+									<li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+								}
+							</ol>
+						</nav>
+					</div> <!-- col.// -->
+					<div class="col-xl-6 col-lg-5">
+						<form asp-action="grid" asp-controller="Listing" class="search-header">
+							<div class="input-group w-100">
+								<select class="custom-select border-right" id="tagid" name="tagid">
+									<option value="">Tất cả</option>
+									@foreach (var tag in Model.tags)
+									{
+										<option value="@tag.Id">@tag.Name</option>
+									}
+								</select>
+								<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Search">
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-search"></i> Tìm
+									</button>
+								</div>
+							</div>
+						</form> <!-- search-wrap .end// -->
+					</div> <!-- col.// -->
 				</div> <!-- row.// -->
+
+
 				<hr>
 				<div class="row">
 					<div class="col-md-2">Lọc sản phẩm</div> <!-- col.// -->
@@ -80,6 +103,7 @@
 		<header class="mb-3">
 			<div class="form-inline">
 				<strong class="mr-md-auto">@Model.products.Count() kết quả </strong>
+
 				<select class="mr-2 form-control">
 					<option>Latest items</option>
 					<option>Trending</option>

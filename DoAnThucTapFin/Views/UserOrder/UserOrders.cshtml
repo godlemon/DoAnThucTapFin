@@ -28,7 +28,7 @@
                                         Tổng:
                                     </td>
                                     <td>
-                                        @(order.OrderDetail.Select(item => item.products.Price * item.Quantity).Sum())
+                                        @(order.OrderDetail.Select(item => item.products.Price * item.Quantity).Sum()) Đồng
 
                                     </td>
                                 </tr>
@@ -50,12 +50,12 @@
                                             }
                                             else
                                             {
-                                                <img src="@item.products.Productimg" style="width:80px;height:100px" />
+                                                <img src="~/@item.products.Productimg" style="width:80px;height:100px" />
                                             }
                                         </td>
                                         <td>@item.products.tags.Name</td>
-                                        <td>@item.products.Price X @item.Quantity</td>
-                                        <td> @(item.products.Price * item.Quantity) </td>
+                                        <td>@item.products.Price X @item.Quantity Đồng</td>
+                                        <td> @(item.products.Price * item.Quantity) Đồng</td>
                                     </tr>
                                 }
                             </table>

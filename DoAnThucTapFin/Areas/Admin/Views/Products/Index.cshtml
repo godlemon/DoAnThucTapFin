@@ -5,10 +5,10 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Sản phẩm</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Thêm sản phẩm</a>
 </p>
 <table class="table">
     <thead>
@@ -53,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Price) Đồng
             </td>
             <td>
                 <img style="width: 80px; height: 80px" src="~/@item.Productimg" alt="Product Image" />
