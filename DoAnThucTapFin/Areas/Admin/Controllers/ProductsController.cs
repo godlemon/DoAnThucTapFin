@@ -87,6 +87,9 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
             }
 
             var product = await _context.products.FindAsync(id);
+            ViewBag.Tags = new SelectList(_context.tags, "Id", "Name", product.TagId);
+            ViewBag.CurrentProductImage = product.Productimg;
+
             if (product == null)
             {
                 return NotFound();
@@ -97,37 +100,61 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Admin/Products/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Brand,Resolution,Quantity")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Productimg,Brand,Resolution,Quantity,TagId")] Product product, IFormFile file)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var currentProduct = await _context.products.FindAsync(id);
+
+                if (currentProduct != null)
                 {
-                    _context.Update(product);
+                    if (file != null)
+                    {
+                        var filePath = UploadPathConstant.ProductPath;
+                        var savedFileName = await _storageService.UpdateFileAsync(file, product.Productimg, filePath);
+                        currentProduct.Productimg = savedFileName;
+                    }
+
+                    currentProduct.Name = product.Name;
+                    currentProduct.Price = product.Price;
+                    currentProduct.Brand = product.Brand;
+                    currentProduct.Resolution = product.Resolution;
+                    currentProduct.Quantity = product.Quantity;
+                    currentProduct.TagId = product.TagId;
+
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(product.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
+
+
 
         // GET: Admin/Products/Delete/5
         public async Task<IActionResult> Delete(int? id)

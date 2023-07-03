@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Danh sách";
     Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.tags = ViewBag.Tags;
+
 }
 
 <section class="section-content padding-y">
@@ -174,7 +176,7 @@
 							<aside class="col-sm-3">
 								<div class="info-aside d-flex flex-column">
 									<div class="price-wrap">
-										<span class="h5 price">@pro.Price đ</span>
+										<span class="h5 price">@string.Format("{0:#,##0}", pro.Price) đ</span>
 										<small class="text-muted">/sản phẩm</small>
 									</div> <!-- price-wrap.// -->
 									<small class="text-warning">Thanh toán tín dụng</small>

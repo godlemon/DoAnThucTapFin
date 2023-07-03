@@ -21,6 +21,9 @@ namespace DoAnThucTapFin.Controllers
 			var tag = await dbContext.tags.FindAsync(product.TagId);
 			ViewBag.Product = product;
 			ViewBag.tagsname = tag?.Name;
+			var tagsQuery = from t in dbContext.tags
+							select t;
+			ViewBag.Tags = await tagsQuery.ToListAsync();
 			return View();
 		}
 	}

@@ -3,6 +3,8 @@
 @{
 	ViewData["Title"] = "Danh sách";
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.tags = ViewBag.Tags;
+
 }
 <section class="section-content padding-y">
 	<div class="container">
@@ -23,25 +25,6 @@
 								}
 							</ol>
 						</nav>
-					</div> <!-- col.// -->
-					<div class="col-xl-6 col-lg-5">
-						<form asp-action="grid" asp-controller="Listing" class="search-header">
-							<div class="input-group w-100">
-								<select class="custom-select border-right" id="tagid" name="tagid">
-									<option value="">Tất cả</option>
-									@foreach (var tag in Model.tags)
-									{
-										<option value="@tag.Id">@tag.Name</option>
-									}
-								</select>
-								<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Search">
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="submit">
-										<i class="fa fa-search"></i> Tìm
-									</button>
-								</div>
-							</div>
-						</form> <!-- search-wrap .end// -->
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
 
@@ -75,7 +58,7 @@
 										{
 											tempList.Add(pro.Brand);
 											<label class="form-check">
-												<input type="checkbox" class="form-check-input"> @pro.Brand
+												<input type="checkbox" value="@pro.Brand" name="brand" class="form-check-input"> @pro.Brand
 											</label>
 										}
 									}
@@ -133,7 +116,7 @@
 						<figcaption class="info-wrap">
 							<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="title mb-2">@pro.Name</a>
 							<div class="price-wrap">
-								<span class="price">@pro.Price đ</span>
+								<span class="price">@string.Format("{0:#,##0}", pro.Price) đ</span>
 								<small class="text-muted">/sản phẩm</small>
 							</div> <!-- price-wrap.// -->
 

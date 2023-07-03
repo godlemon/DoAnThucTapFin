@@ -1,7 +1,7 @@
 ﻿@model ShoppingCart
 @{
     ViewData["Title"] = "Shopping";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutIdentity.cshtml";
 }
 
 <section class="section-content padding-y">
@@ -29,8 +29,8 @@
                                     <img src="~/@item.products.Productimg" style="width:80px;height:100px" />
                                 </td>
                                 <td>@item.products.tags.Name</td>
-                                <td>@item.products.Price X @item.Quantity</td>
-                                <td>@(item.products.Price * item.Quantity)</td>
+                                <td>@item.products.Price Đ X @item.Quantity</td>
+                                <td>@(item.products.Price * item.Quantity) Đ</td>
                                 <td>
                                     <a class="btn btn-info" href="/Cart/AddItem?productId=@item.productid&&redirect=1">+</a>
                                     <a class="btn btn-info" href="/cart/removeitem?productId=@item.productid">-</a>
@@ -42,7 +42,7 @@
 						<div class="card-body">
 							<dl class="dlist-align">
 								<dt>Tổng</dt>
-                                    <dd class="text-right">@(Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum())</dd>
+                                    <dd class="text-right">@(Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum()) Đ</dd>
 							</dl>
 						</div>
 					<div class="card-body border-top">

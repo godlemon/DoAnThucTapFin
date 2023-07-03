@@ -22,16 +22,14 @@ namespace DoAnThucTapFin.Controllers
             var bannersQuery = from b in dbContext.banners
                                orderby b.Id descending
                                select b;
-
             ViewBag.Banners = await bannersQuery.ToListAsync();
-
             var tagsQuery = from t in dbContext.tags
                             select t;
             ViewBag.Tags = await tagsQuery.ToListAsync();
             var ProductsQuery = from t in dbContext.products
                             select t;
             ViewBag.Product = await ProductsQuery.ToListAsync();
-            return View();
+			return View();
         }
         public IActionResult category()
         {

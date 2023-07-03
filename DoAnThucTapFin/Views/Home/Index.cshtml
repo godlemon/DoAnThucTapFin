@@ -1,35 +1,13 @@
-﻿@using DoAnThucTapFin.Areas.Admin.Models;
+﻿@model ProductDisplayModel
 @{
     ViewData["Title"] = "Home Page";
+	ViewBag.tags = ViewBag.Tags;
 }
 
 <div class="container">
 	<!-- ========================= SECTION MAIN  ========================= -->
 	<section class="section-main padding-y">
 		<main class="card">
-			<div class="card-body">
-				<div class="col-xl-6 col-lg-5 float-right">
-					<form asp-action="grid" asp-controller="Listing" class="search-header">
-						<div class="input-group w-100">
-                            <select class="custom-select border-right" id="tagid" name="tagid">
-                                <option value="">Tất cả</option>
-								@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags))
-								{
-									<option value="@tag.Id">@tag.Name</option>
-								}
-								
-							</select>
-							<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Search">
-
-							<div class="input-group-append">
-								<button class="btn btn-primary" type="submit">
-									<i class="fa fa-search"></i> Tìm
-								</button>
-							</div>
-						</div>
-					</form> <!-- search-wrap .end// -->
-				</div> <!-- col.// -->
-			</div>
 			<div class="card-body">
 				<div class="row">
 					<aside class="col-lg col-md-3 flex-lg-grow-0">
@@ -253,14 +231,12 @@
 		<div class="row row-sm">
 			@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product).Take(12))
 			{
-				Random random = new Random();
-				int randomPercent = random.Next(60, 121);
 				<div  class="col-xl-2 col-lg-3 col-md-4 col-6">
 					<div class="card card-sm card-product-grid">
 						<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="img-wrap"> <img src="@pro.Productimg"> </a>
 						<figcaption class="info-wrap">
 							<a asp-action="Detail" asp-controller="ProductSP" asp-route-ProductID="@pro.Id" class="title">@pro.Name</a>
-							<div class="price mt-1">$@randomPercent</div>
+							<div class="price mt-1">@string.Format("{0:#,##0}", pro.Price) Đ</div>
 						</figcaption>
 					</div>
 				</div>

@@ -35,7 +35,10 @@ namespace DoAnThucTapFin.Services
                 return existingFilePath;
             }
 
-            await DeleteFileAsync(existingFilePath);
+            if (!string.IsNullOrEmpty(existingFilePath))
+            {
+                await DeleteFileAsync(existingFilePath);
+            }
             return await SaveFileAsync(file, filePath);
         }
 
