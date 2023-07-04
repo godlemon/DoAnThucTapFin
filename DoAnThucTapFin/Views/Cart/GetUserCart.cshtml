@@ -1,6 +1,6 @@
 ﻿@model ShoppingCart
 @{
-    ViewData["Title"] = "Shopping";
+    ViewData["Title"] = "Rỏ hàng";
     Layout = "~/Views/Shared/_LayoutIdentity.cshtml";
 }
 
@@ -29,8 +29,8 @@
                                     <img src="~/@item.products.Productimg" style="width:80px;height:100px" />
                                 </td>
                                 <td>@item.products.tags.Name</td>
-                                <td>@item.products.Price Đ X @item.Quantity</td>
-                                <td>@(item.products.Price * item.Quantity) Đ</td>
+                                    <td>@string.Format("{0:#,##0}", item.products.Price) Đ X @item.Quantity</td>
+                                    <td>@string.Format("{0:#,##0}", (item.products.Price * item.Quantity)) Đ</td>
                                 <td>
                                     <a class="btn btn-info" href="/Cart/AddItem?productId=@item.productid&&redirect=1">+</a>
                                     <a class="btn btn-info" href="/cart/removeitem?productId=@item.productid">-</a>
@@ -42,7 +42,7 @@
 						<div class="card-body">
 							<dl class="dlist-align">
 								<dt>Tổng</dt>
-                                    <dd class="text-right">@(Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum()) Đ</dd>
+                                    <dd class="text-right">@string.Format("{0:#,##0}", (Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum())) Đ</dd>
 							</dl>
 						</div>
 					<div class="card-body border-top">

@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<Order>
 @{
+    ViewData["Title"] = "Đơn hàng";
     Layout = "~/Views/Shared/_LayoutIdentity.cshtml";
 }
 <div style="width:100%" class="mt-2">
-    <a href="/Identity/Account/Manage" class="btn btn-primary my-2">Quay lại</a>
-
-    <h4>Đơn hàng của tôi</h4>
+    <h1 class="text-center">Đơn hàng của tôi</h1>
     @if (Model != null && Model.Count() > 0)
     {
         <table class="table table-striped">
@@ -24,15 +23,6 @@
                     <tr>
                         <td>
                             <table class="table table-striped">
-                                <tr>
-                                    <td>
-                                        Tổng:
-                                    </td>
-                                    <td>
-                                        @(order.OrderDetail.Select(item => item.products.Price * item.Quantity).Sum()) Đồng
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <th>Sản phẩm</th>
                                     <th>Ảnh</th>
@@ -55,8 +45,8 @@
                                             }
                                         </td>
                                         <td>@item.products.tags.Name</td>
-                                        <td>@item.products.Price X @item.Quantity Đồng</td>
-                                        <td> @(item.products.Price * item.Quantity) Đồng</td>
+                                        <td>@string.Format("{0:#,##0}", item.products.Price) X @item.Quantity Đồng</td>
+                                        <td> @string.Format("{0:#,##0}", (item.products.Price * item.Quantity)) Đồng</td>
                                     </tr>
                                 }
                             </table>

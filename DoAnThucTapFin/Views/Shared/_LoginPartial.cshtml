@@ -3,19 +3,26 @@
 @inject UserManager<IdentityUser> UserManager
 @if (SignInManager.IsSignedIn(User))
     {
-        <div class="widget-header mr-3">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-               <span id="username">@User.Identity?.Name</span>!
-                @if (User.IsInRole("Admin"))
-                {
-                    <span>(Admin)</span>
-                }
+        
+        <div class="dropdown">
+            <a style="border: none;background-color: transparent;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-user"></i> <span id="username">@User.Identity?.Name</span>!
+            @if (User.IsInRole("Admin"))
+            {
+                <span>(Admin)</span>
+            }
             </a>
-        </div>
-        <div class="widget-header mr-3">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
-            </form>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Hồ sơ</a></li>
+                <li><a class="dropdown-item" href="/UserOrder/UserOrders"> <i class="fa fa-store"></i>Đơn hàng</a></li>
+            <li>
+                <form class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
+                </form>
+            </li>
+            
+            </ul>
+
         </div>
     }
     else
@@ -23,6 +30,7 @@
         <div class="widget-header mr-3">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
         </div>
+         <a class="nav-link-divider"><span class="nav-link-divider::before"></span></a>
         <div class="widget-header mr-3">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
         </div>

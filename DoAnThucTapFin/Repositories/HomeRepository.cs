@@ -18,7 +18,7 @@ namespace DoAnThucTapFin.Repositories
         {
             return await _db.tags.ToListAsync();
         }
-		public async Task<IEnumerable<Product>> GetProduct(string sTerm = "", int tagid = 0, string brand = "")
+		public async Task<IEnumerable<Product>> GetProduct(string sTerm = "", int tagid = 0, string brand = "", double minPrice = 0, double maxPrice = double.MaxValue)
 		{
 			sTerm = sTerm.ToLower();
 			brand = brand.ToLower();
@@ -26,8 +26,9 @@ namespace DoAnThucTapFin.Repositories
 			IEnumerable<Product> products = await (from product in _db.products
 												   join tag in _db.tags on product.TagId equals tag.Id
 												   where (string.IsNullOrWhiteSpace(sTerm) || product.Name.ToLower().StartsWith(sTerm))
-												   && (tagid == 0 || product.TagId == tagid)
-												   && (string.IsNullOrWhiteSpace(brand) || product.Brand.ToLower() == brand)
+														 && (tagid == 0 || product.TagId == tagid)
+														 && (string.IsNullOrWhiteSpace(brand) || product.Brand.ToLower() == brand)
+														 && (product.Price >= minPrice && product.Price <= maxPrice)
 												   select new Product
 												   {
 													   Id = product.Id,
@@ -37,11 +38,11 @@ namespace DoAnThucTapFin.Repositories
 													   TagId = product.TagId,
 													   Price = product.Price,
 													   tagname = tag.Name
-												   }
-												  ).ToListAsync();
+												   }).ToListAsync();
 
 			return products;
 		}
+
 
 	}
 }

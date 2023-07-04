@@ -20,11 +20,11 @@ namespace DoAnThucTap.Controllers
 			this.dbContext = dbContext;
 			_homeRepository = homeRepository;
 		}
-		public async Task<IActionResult> grid(string sterm = "", int tagid = 0, string brand = "", int page = 1)
+		public async Task<IActionResult> grid(string sterm = "", int tagid = 0, string brand = "", double minPrice = 0, double maxPrice = double.MaxValue, int page = 1)
 		{
 			const int pageSize = 12; // Số sản phẩm hiển thị trên mỗi trang
 
-			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand);
+			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
 
 			// Tính toán số lượng trang dựa trên tổng số sản phẩm và kích thước trang
 			int totalItems = products.Count();
@@ -50,13 +50,13 @@ namespace DoAnThucTap.Controllers
 			return View(productModel);
 		}
 
-		public async Task<IActionResult> large(string sterm="", int tagid=0, string brand="", int page = 1)
+		public async Task<IActionResult> large(string sterm="", int tagid=0, double minPrice = 0, double maxPrice = double.MaxValue, string brand="", int page = 1)
 		{
             const int pageSize = 12; // Số sản phẩm hiển thị trên mỗi trang
 			var tagsQuery = from t in dbContext.tags
 							select t;
 			ViewBag.Tags = await tagsQuery.ToListAsync();
-			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand);
+			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
 
             // Tính toán số lượng trang dựa trên tổng số sản phẩm và kích thước trang
             int totalItems = products.Count();

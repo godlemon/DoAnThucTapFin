@@ -1,0 +1,15 @@
+﻿
+.nav-link-divider {
+    position: relative;
+}
+
+.nav-link-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 14px;
+    background-color: #000;
+}

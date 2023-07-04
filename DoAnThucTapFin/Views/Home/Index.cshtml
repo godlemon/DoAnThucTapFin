@@ -1,6 +1,6 @@
 ﻿@model ProductDisplayModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
 	ViewBag.tags = ViewBag.Tags;
 }
 
@@ -85,6 +85,13 @@
 	</section>
 	<!-- ========================= SECTION MAIN END// ========================= -->
 	<!-- =============== SECTION DEAL =============== -->
+	@{
+		Random random = new Random();
+		int day = random.Next(1, 7);
+		int h = random.Next(1, 23);
+		int p = random.Next(1, 59);
+		int s = random.Next(1, 7);
+	}
 	<section class="padding-bottom">
 		<div class="card card-deal">
 			<div class="col-heading content-body">
@@ -103,7 +110,7 @@
 				
 				@foreach (var pro in ((IEnumerable<Product>)ViewBag.Product).Take(5))
 				{
-					Random random = new Random();
+					
 					int randomPercent = random.Next(10, 51);
 					<div class="col-md col-6">
 						<figure class="card-product-grid card-sm">
