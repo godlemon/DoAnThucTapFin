@@ -3,65 +3,88 @@
     ViewData["Title"] = "Đơn hàng";
     Layout = "~/Views/Shared/_LayoutIdentity.cshtml";
 }
-<div style="width:100%" class="mt-2">
-    <h1 class="text-center">Đơn hàng của tôi</h1>
-    @if (Model != null && Model.Count() > 0)
+<main class="col-md-10">
+	@if (Model != null && Model.Count() > 0)
     {
-        <table class="table table-striped">
-            <tr>
-                <th>Ngày đặt</th>
-                <th>Tình trạng đơn hàng</th>
-            </tr>
-            @foreach (var order in Model)
-            {
-                <tr>
-                    <td>@order.CreateDate.ToString("dd-MM-yyyy")</td>
-                    <td>@order.OrderStatus.StatusName</td>
-                </tr>
-                @if (order.OrderDetail != null && order.OrderDetail.Count > 0)
-                {
-                    <tr>
-                        <td>
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Sản phẩm</th>
-                                    <th>Ảnh</th>
-                                    <th>Loại hàng</th>
-                                    <th>Giá thành</th>
-                                    <th>Tổng thanh toán</th>
-                                </tr>
-                                @foreach (var item in order.OrderDetail)
-                                {
-                                    <tr>
-                                        <td>@item.products.Name</td>
-                                        <td>
-                                            @if (string.IsNullOrEmpty(item.products.Productimg))
-                                            {
-                                                <img src="/images/NoImage.png" style="width:80px;height:100px" />
-                                            }
-                                            else
-                                            {
-                                                <img src="~/@item.products.Productimg" style="width:80px;height:100px" />
-                                            }
-                                        </td>
-                                        <td>@item.products.tags.Name</td>
-                                        <td>@string.Format("{0:#,##0}", item.products.Price) X @item.Quantity Đồng</td>
-                                        <td> @string.Format("{0:#,##0}", (item.products.Price * item.Quantity)) Đồng</td>
-                                    </tr>
-                                }
-                            </table>
-                        </td>
-                    </tr>
-                }
-            }
-        </table>
+		<h1 class="text-center">Đơn hàng của tôi</h1>
+		@foreach (var order in Model)
+		{
+			<article class="card mb-4">
+				<header class="card-header">
+					<a href="#" class="float-right"> <i class="fa fa-print"></i> Thanh toán</a>
+					<strong class="d-inline-block mr-3">Mã đơn: @order.Id </strong>
+					<span>Ngày đặt: @order.CreateDate</span>
+				</header>
+				 <!-- card-body .// -->
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tbody>
+							@{
+								double total = 0;
+							}
+							@foreach (var item in order.OrderDetail)
+							{
+								<tr>
+									<td width="30">
+										<img src="~/@item.products.Productimg" class="img-xs border">
+									</td>
+									<td>
+										<p class="title mb-0">@item.products.Name</p>
+										<var class="price text-muted">@string.Format("{0:#,##0}", item.products.Price) Đ</var>
+									</td>
+									<td>
+										<p class="title mb-0">Số lượng</p>
+										<var class="price text-muted">@item.Quantity chiếc</var>
+									</td>
+									<td>
+										<p class="title mb-0">Tổng</p>
+										<var class="price text-muted">@string.Format("{0:#,##0}", (item.products.Price * item.Quantity)) Đ</var>
+									</td>
+									<td> Bên bán <br> @item.products.Brand </td>
+									<td width="250">
+										<div class="dropdown d-inline-block">
+											<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-outline-secondary">Xem thêm</a>
+											<div class="dropdown-menu dropdown-menu-right">
+												<a href="#" class="dropdown-item">Hoàn đơn</a>
+												<a href="#" class="dropdown-item">Hủy đơn</a>
+											</div>
+										</div> <!-- dropdown.// -->
+									</td>
+								</tr>
+								total += (item.products.Price * item.Quantity);
+							}
+						</tbody>
+					</table>
+				</div> <!-- table-responsive .end// -->
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-8">
+							<h6 class="text-muted">Gửi đến</h6>
+							<p>
+								@User.Identity?.Name <br>
+							</p>
+						</div>
+						<div class="col-md-4">
+							<h6 class="text-muted">Thanh toán</h6>
+							<span class="text-success">
+								Khi nhận hàng
+							</span>
+							<p>
+								Trạng thái đơn hàng: @order.OrderStatus.StatusName <br>
+								<span class="b"> tổng thanh toán: @string.Format("{0:#,##0}", total) đ </span>
+							</p>
+						</div>
+					</div> <!-- row.// -->
+				</div>
+			</article> <!-- card order-item .// -->
+		}
+	}
+	else
+	{
+		<h5>Không có đơn!!</h5>
+	}
 
-    }
-    else
-    {
-        <h5>Không có đơn!!</h5>
-    }
-</div>
+</main> <!-- col.// -->
 
 
 

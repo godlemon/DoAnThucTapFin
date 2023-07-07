@@ -4,7 +4,7 @@
 	ViewData["Title"] = "Danh sách";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.tags = ViewBag.Tags;
-
+	ViewBag.product = ViewBag.Product;
 }
 <section class="section-content padding-y">
 	<div class="container">
@@ -35,7 +35,7 @@
 							<li class="list-inline-item mr-3 dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Loại sản phẩm</a>
 								<div class="dropdown-menu p-3" style="max-width:400px;">
-									@foreach (var tag in Model.tags)
+									@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags))
 									{
 										<label class="form-check">
 											<input value="@tag.Id" type="radio" name="tagid" class="form-check-input">@tag.Name
@@ -49,8 +49,7 @@
 									@{
 										List<string> tempList = new List<string>();
 									}
-
-									@foreach (var pro in Model.products)
+									@foreach (var pro in ((IEnumerable<Product>)ViewBag.product))
 									{
 										if (!tempList.Contains(pro.Brand))
 										{

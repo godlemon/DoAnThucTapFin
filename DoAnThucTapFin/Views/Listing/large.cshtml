@@ -3,6 +3,7 @@
     ViewData["Title"] = "Danh sách";
     Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.tags = ViewBag.Tags;
+	ViewBag.product = ViewBag.Product;
 
 }
 
@@ -41,7 +42,7 @@
 								@{
 									List<string> tempList = new List<string>();
 								}
-								@foreach (var pro in Model.products)
+								@foreach (var pro in ((IEnumerable<Product>)ViewBag.product))
 								{
 									if (!tempList.Contains(pro.Brand))
 									{

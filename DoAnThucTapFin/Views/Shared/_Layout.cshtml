@@ -30,28 +30,56 @@
 </head>
 
 <body>
+	<header class="section-header">
+		<nav class="navbar d-none d-md-flex p-md-0 navbar-expand-sm navbar-light border-bottom">
+			<div class="container">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTop4" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarTop4">
+					<ul class="navbar-nav mr-auto">
+						<partial name="_LoginPartial" />
+						<li><a href="#" class="nav-link"> Giảm giá </a></li>
+						<li><a href="#" class="nav-link"> Bán </a></li>
+						<li><a href="#" class="nav-link"> trợ giúp </a></li>
+					</ul>
+					<ul class="navbar-nav">
+						<li><a href="#" class="nav-link"> Cửa hàng </a></li>
+						<li><a href="#" class="nav-link"> <i class="fa fa-bell"></i> </a></li>
+						<li><a href="/Cart/GetUserCart" class="nav-link"> <i class="fa fa-shopping-cart"><span class="badge badge-danger navbar-badge" style="font-size: 12px;padding: 2px 5px;" id="cartCount">0</span></i> </a></li>
+					</ul> <!-- list-inline //  -->
+				</div> <!-- navbar-collapse .// -->
+			</div> <!-- container //  -->
+		</nav>
+
 		<section class="header-main border-bottom">
 			<div class="container" >
-				<div class="row justify-content-between">
+				<div class="row row-sm">
 					<div class="col-xl-2 col-lg-3 col-md-12">
 						<a asp-action="index" asp-controller="Home" asp-area="" class="brand-wrap">
                             <img style="height: 50px; width: auto;" src="~/images/myweb/chungyenicon.png" /> Chung yên Laptop
 						</a> <!-- brand-wrap.// -->
 					</div>
-					<div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="widgets-wrap float-md-right">
-							<div class="widget-header">
-								<partial name="_LoginPartial" />
+					<div class="col-lg-9 col-xl col-md-5 col-sm-12 flex-grow-1">
+						<form asp-action="grid" asp-controller="Listing" class="search-header">
+							<div class="input-group w-100">
+								<select class="custom-select border-right" id="tagid" name="tagid">
+									<option value="">Tất cả</option>
+									@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags))
+									{
+										<option value="@tag.Id">@tag.Name</option>
+									}
+
+								</select>
+								<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Tìm">
+
+								<div class="input-group-append">
+									<button class="btn btn-primary" type="submit">
+										<i class="fa fa-search"></i> Tìm
+									</button>
+								</div>
 							</div>
-							<div class="widget-header">
-								<a href="/Cart/GetUserCart" class="widget-view">
-									<div class="icon-area">
-										<i class="fa fa-shopping-cart"></i>
-									</div>
-									<small class="text"> Giỏ hàng<span class="badge badge-danger navbar-badge" style="font-size: 12px;padding: 2px 5px;" id="cartCount">0</span> </small>
-								</a>
-							</div>
-						</div> <!-- widgets-wrap.// -->
+						</form> <!-- search-wrap .end// -->
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
 			</div> <!-- container.// -->
@@ -78,27 +106,6 @@
 						</li>
 					</ul>
 				</div> <!-- collapse .// -->
-					<div class="col-xl-6 col-lg-5 float-right">
-						<form asp-action="grid" asp-controller="Listing" class="search-header">
-							<div class="input-group w-100">
-								<select class="custom-select border-right" id="tagid" name="tagid">
-									<option value="">Tất cả</option>
-									@foreach (var tag in ((IEnumerable<Tags>)ViewBag.tags))
-									{
-										<option value="@tag.Id">@tag.Name</option>
-									}
-
-								</select>
-								<input type="text" class="form-control" id="sterm" name="sterm" placeholder="Tìm">
-
-								<div class="input-group-append">
-									<button class="btn btn-primary" type="submit">
-										<i class="fa fa-search"></i> Tìm
-									</button>
-								</div>
-							</div>
-						</form> <!-- search-wrap .end// -->
-					</div> <!-- col.// -->
 			</div> <!-- container .// -->
 		</nav>
 	</header> <!-- section-header.// -->

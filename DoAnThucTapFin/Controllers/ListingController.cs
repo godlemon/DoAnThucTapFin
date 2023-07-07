@@ -50,7 +50,10 @@ namespace DoAnThucTap.Controllers
 			var tagsQuery = from t in dbContext.tags
 							select t;
 			ViewBag.Tags = await tagsQuery.ToListAsync();
-			return View(productModel);
+            var ProductQuery = from t in dbContext.products
+                            select t;
+            ViewBag.Product = await ProductQuery.ToListAsync();
+            return View(productModel);
 		}
 
 		public async Task<IActionResult> large(string sterm="", int tagid=0, double minPrice = 0, double maxPrice = double.MaxValue, string brand="", int page = 1)
@@ -59,6 +62,9 @@ namespace DoAnThucTap.Controllers
 			var tagsQuery = from t in dbContext.tags
 							select t;
 			ViewBag.Tags = await tagsQuery.ToListAsync();
+			var ProductQuery = from t in dbContext.products
+							   select t;
+			ViewBag.Product = await ProductQuery.ToListAsync();
 			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
 
             // Tính toán số lượng trang dựa trên tổng số sản phẩm và kích thước trang

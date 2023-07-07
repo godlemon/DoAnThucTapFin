@@ -5,70 +5,63 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Chi tiết</h1>
+<section class="section-content bg-white padding-y">
+	<div class="container">
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Resolution)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Resolution)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantitysell)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantitysell)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.tags)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.tags.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Productimg)
-        </dt>
-        <dd class="col-sm-10">
-            <img style="height: 150px; width: 150px" src="~/@Model.Productimg" />
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+		<!-- ============================ ITEM DETAIL ======================== -->
+		<div class="row">
+			<aside class="col-md-6">
+				<div class="card">
+					<article class="gallery-wrap">
+						<div class="img-big-wrap">
+							<div> <a ><img src="~/@Model.Productimg" alt="@Model.Name"></a></div>
+						</div> <!-- slider-product.// -->
+					</article> <!-- gallery-wrap .end// -->
+				</div> <!-- card.// -->
+			</aside>
+			<main class="col-md-6">
+				<article class="product-info-aside">
+
+					<h2 class="title mt-3">@Model.Name</h2>
+					<div class="mb-3">
+						<var class="price h4">@string.Format("{0:#,##0}", Model.Price) Đồng</var>
+						<span class="text-muted"> /Sản phẩm</span>
+					</div> <!-- price-detail-wrap .// -->
+					<dl class="row">
+						<dt class="col-sm-3">Hãng</dt>
+						<dd class="col-sm-9"><a>@Model.Brand</a></dd>
+
+						<dt class="col-sm-3">@Html.DisplayNameFor(model => model.Quantity)</dt>
+						<dd class="col-sm-9">@Model.Quantity</dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Quantitysell)</dt>
+                        <dd class="col-sm-9">@Model.Quantitysell</dd>
+
+						<dt class="col-sm-3">@Html.DisplayNameFor(model => model.Resolution)</dt>
+						<dd class="col-sm-9">@Model.Resolution</dd>
+						<dt class="col-sm-3">Trạng thái</dt>
+						@{
+							if (Model.Status == true)
+							{
+								<dd class="col-sm-9">Còn hàng</dd>
+							}
+							else
+							{
+								<dd class="col-sm-9">Hết hàng</dd>
+							}
+						}
+
+                    </dl>
+					<div class="form-group col-md">
+                        <a type="button" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Chỉnh sửa</a>
+                        <a type="button" asp-action="Index" class="btn btn-primary">Quay lại</a>
+                    </div> <!-- col.// -->
+				</article> <!-- product-info-aside .// -->
+			</main> <!-- col.// -->
+		</div> <!-- row.// -->
+		<!-- ================ ITEM DETAIL END .// ================= -->
+
+
+	</div> <!-- container .//  -->
+</section>
