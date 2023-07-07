@@ -215,19 +215,21 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a asp-action="index" asp-area="Admin" asp-controller="Banners" class="nav-link active">
+                                    <a asp-action="index" asp-area="Admin" asp-controller="Banners" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Banners" ? "active" : "")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Banner</p>
                                     </a>
+
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="index" asp-area="Admin" asp-controller="Products" class="nav-link">
+                                    <a asp-action="index" asp-area="Admin" asp-controller="Products" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Products" ? "active" : "")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Sản phẩm</p>
                                     </a>
+
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="index" asp-area="Admin" asp-controller="Tags" class="nav-link">
+                                    <a asp-action="index" asp-area="Admin" asp-controller="Tags" class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString().ToLower() == "tags" ? "active" : "")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Danh mục</p>
                                     </a>
@@ -302,7 +304,18 @@
     <script src="~/css-admin/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/css-admin/dist/js/pages/dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 @RenderSection("Scripts", required: false)
 
 </html>
+<script>
+    $(document).ready(function () {
+        $('.nav-link').click(function () {
+            $('.nav-link').removeClass('active'); // Xóa lớp 'active' khỏi tất cả các phần tử
+            $(this).addClass('active'); // Thêm lớp 'active' cho phần tử được nhấp vào
+        });
+    });
+
+</script>

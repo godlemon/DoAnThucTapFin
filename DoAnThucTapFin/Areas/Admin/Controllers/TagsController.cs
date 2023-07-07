@@ -11,6 +11,8 @@ using DoAnThucTapFin.Services;
 using DoAnThucTapFin.Data;
 using Microsoft.AspNetCore.Authorization;
 using DoAnThucTapFin.Areas.Admin.Models;
+using System.Data;
+
 
 namespace DoAnThucTapFin.Areas.Admin.Controllers
 {
@@ -88,6 +90,7 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
             }
 
             var tags = await _context.tags.FindAsync(id);
+            ViewBag.CurrentTagsImage = tags.Image;
             if (tags == null)
             {
                 return NotFound();
@@ -108,14 +111,26 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
             }
             try
             {
-                if (file != null)
+                var currentTags = await _context.tags.FindAsync(id);
+
+                if (currentTags != null)
                 {
-                    var filePath = UploadPathConstant.TagPath;
-                    var savedFileName = await _storageService.SaveFileAsync(file, filePath);
-                    tags.Image = savedFileName;
+                    if (file != null)
+                    {
+                        var filePath = UploadPathConstant.TagPath;
+                        var savedFileName = await _storageService.UpdateFileAsync(file, tags.Image, filePath);
+                        currentTags.Image = savedFileName;
+                    }
+
+                    currentTags.Name = tags.Name;
+                    currentTags.Description = tags.Description;
+
+                    await _context.SaveChangesAsync();
                 }
-                _context.Update(tags);
-                await _context.SaveChangesAsync();
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -128,10 +143,12 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
                     throw;
                 }
             }
+
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/tags/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.tags == null)
@@ -139,33 +156,35 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var tags = await _context.tags
+            var tag = await _context.tags
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tags == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(tags);
-        }
+            _context.tags.Remove(tag);
+            await _context.SaveChangesAsync();
 
-        // POST: Admin/tags/Delete/5
+            return RedirectToAction("Index");
+        }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.tags == null)
+            if (_context.products == null)
             {
-                return Problem("Entity set 'ADbContext.tags'  is null.");
-            }
-            var tags = await _context.tags.FindAsync(id);
-            if (tags != null)
-            {
-                _context.tags.Remove(tags);
+                return Problem("Entity set 'ADbContext.tags' is null.");
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var tag = await _context.tags.FindAsync(id);
+            if (tag != null)
+            {
+                _context.tags.Remove(tag);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
         }
 
         private bool tagsExists(int id)

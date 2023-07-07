@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 <section class="section-conten padding-y" style="min-height:84vh">
 
@@ -11,8 +12,6 @@
         <div class="card-body">
             <h4 class="card-title mb-4">Đăng nhập</h4>
             <form id="account" method="post">
-                <a href="#" class="btn btn-facebook btn-block mb-2"> <i class="fab fa-facebook-f"></i> &nbsp  Đăng nhập Bằng facebook</a>
-                <a href="#" class="btn btn-google btn-block mb-4"> <i class="fab fa-google"></i> &nbsp  Đăng nhập bằng Google</a>
                 <div class="form-group">
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="Username">

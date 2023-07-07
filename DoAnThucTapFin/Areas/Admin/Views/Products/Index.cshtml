@@ -6,7 +6,6 @@
 }
 
 <h1>Sản phẩm</h1>
-
 <p>
     <a asp-action="Create">Thêm sản phẩm</a>
 </p>
@@ -26,7 +25,13 @@
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Quantitysell)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Productimg)
@@ -53,7 +58,13 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Quantitysell)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Price) Đồng
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 <img style="width: 80px; height: 80px" src="~/@item.Productimg" alt="Product Image" />
@@ -62,11 +73,26 @@
                 @Html.DisplayFor(modelItem => item.tags.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">
+                    <i class="far fa-edit"></i>
+                </a> |
+                <a asp-action="Details" asp-route-id="@item.Id">
+                        <i class="fas fa-info"></i>
+                </a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirmDelete()">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<script>
+    function confirmDelete() {
+        if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

@@ -48,7 +48,6 @@
 					@{
 						Random random = new Random();
 						int review = random.Next(56, 121);
-						int orde = random.Next(455, 667);
 					}
 					<div class="rating-wrap my-3">
 						<ul class="rating-stars">
@@ -64,7 +63,7 @@
 							</li>
 						</ul>
 						<small class="label-rating text-muted">@review Nhận xét</small>
-						<small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> Đã bán @orde</small>
+						<small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> Đã bán @product.Quantitysell</small>
 					</div> <!-- rating-wrap.// -->
 
 					<div class="mb-3">
@@ -99,16 +98,15 @@
 						}
 						
 					</dl>
-
 					<div class="form-row  mt-4">
 						<div class="form-group col-md flex-grow-0">
 							<div class="input-group mb-3 input-spinner">
 								<div class="input-group-prepend">
-									<button class="btn btn-light" type="button" id="button-plus"> + </button>
+									<button class="btn btn-light" type="button" name="button-plus" id="button-plus"> + </button>
 								</div>
-								<input type="text" class="form-control" value="1">
+								<input type="text" class="form-control" id="cartnumber" value="1">
 								<div class="input-group-append">
-									<button class="btn btn-light" type="button" id="button-minus"> &minus; </button>
+									<button class="btn btn-light" type="button" name="button-minus" id="button-minus"> &minus; </button>
 								</div>
 							</div>
 						</div> <!-- col.// -->
@@ -127,28 +125,48 @@
 </section>
 @section Scripts{
 	<script>
+		const buttonPlus = document.querySelector('button[name="button-plus"]');
+		const buttonMinus = document.querySelector('button[name="button-minus"]');
+		const input = document.getElementById('cartnumber');
+
+		buttonPlus.addEventListener('click', function () {
+			// Tăng giá trị input lên 1
+			input.value = parseInt(input.value) + 1;
+		});
+		buttonMinus.addEventListener('click', function () {
+			// Giảm giá trị input đi 1, nhưng không nhỏ hơn 0
+			if (input.value > 0) {
+				input.value = parseInt(input.value) - 1;
+			}
+		});
 		async function add(productId) {
-			var usernameEl = document.getElementById("username");
-			if (usernameEl == null) {
-				window.location.href = "/Identity/Account/Login";
-				//var username=usernameEl.innerText;
-				//  if(username.length<1){
-				//      window.location.href="/Identity/Account/Login";
-				//  }
-			}
-			try {
-				var response = await fetch(`/Cart/AddItem?productId=${productId}`);
-				if (response.status == 200) {
-					var result = await response.json();
-					var cartCountEl = document.getElementById("cartCount");
-					cartCountEl.innerHTML = result;
-					window.location.href = "#cartCount";
+			var count = parseInt(input.value);
+			var i = 0;
+			do{
+				var usernameEl = document.getElementById("username");
+				if (usernameEl == null) {
+					window.location.href = "/Identity/Account/Login";
+					//var username=usernameEl.innerText;
+					//  if(username.length<1){
+					//      window.location.href="/Identity/Account/Login";
+					//  }
 				}
-			}
-			catch (err) {
-				console.log(err);
-			}
+				try {
+					var response = await fetch(`/Cart/AddItem?productId=${productId}`);
+					if (response.status == 200) {
+						var result = await response.json();
+						var cartCountEl = document.getElementById("cartCount");
+						cartCountEl.innerHTML = result;
+						window.location.href = "#cartCount";
+					}
+				}
+				catch (err) {
+					console.log(err);
+				}
+				i++
+			} while (i < input.value)
 		}
+	
 	</script>
 }
 <!-- ========================= SECTION CONTENT END// ========================= -->

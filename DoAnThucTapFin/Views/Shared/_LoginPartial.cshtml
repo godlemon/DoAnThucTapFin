@@ -6,14 +6,20 @@
         
         <div class="dropdown">
             <a style="border: none;background-color: transparent;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-user"></i> <span id="username">@User.Identity?.Name</span>!
-            @if (User.IsInRole("Admin"))
-            {
-                <span>(Admin)</span>
-            }
+                <div class="icon-area">
+                <i class="fa fa-user"></i>
+            </div>
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Hồ sơ</a></li>
+            <li>
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <span id="username">@User.Identity?.Name</span>!
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <span>(Admin)</span>
+                    }
+                </a>
+            </li>
                 <li><a class="dropdown-item" href="/UserOrder/UserOrders"> <i class="fa fa-store"></i>Đơn hàng</a></li>
             <li>
                 <form class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

@@ -86,6 +86,7 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
             }
 
             var banner = await _context.banners.FindAsync(id);
+            ViewBag.CurrentBannerImage = banner.Url;
             if (banner == null)
             {
                 return NotFound();
@@ -98,37 +99,51 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Url,Active")] Banner banner)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Url,Active")] Banner banner, IFormFile file)
         {
             if (id != banner.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var currentBanner = await _context.banners.FindAsync(id);
+
+                if (currentBanner != null)
                 {
-                    _context.Update(banner);
+                    if (file != null)
+                    {
+                        var bannerPath = UploadPathConstant.BannerPath;
+                        var savedFileName = await _storageService.UpdateFileAsync(file, banner.Url, bannerPath);
+                        currentBanner.Url = savedFileName;
+                    }
+
+                    currentBanner.Name = banner.Name;
+                    currentBanner.Active = banner.Active;
+
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!BannerExists(banner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(banner);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BannerExists(banner.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Banners/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.banners == null)
@@ -143,27 +158,31 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(banner);
-        }
+            _context.banners.Remove(banner);
+            await _context.SaveChangesAsync();
 
-        // POST: Admin/Banners/Delete/5
+            return RedirectToAction("Index");
+        }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.banners == null)
             {
-                return Problem("Entity set 'ADbContext.banners'  is null.");
+                return Problem("Entity set 'ADbContext.banners' is null.");
             }
+
             var banner = await _context.banners.FindAsync(id);
             if (banner != null)
             {
                 _context.banners.Remove(banner);
+                await _context.SaveChangesAsync();
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction("Index");
         }
+
+
 
         private bool BannerExists(int id)
         {

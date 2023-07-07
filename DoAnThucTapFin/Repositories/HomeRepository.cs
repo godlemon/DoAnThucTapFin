@@ -25,11 +25,12 @@ namespace DoAnThucTapFin.Repositories
 
 			IEnumerable<Product> products = await (from product in _db.products
 												   join tag in _db.tags on product.TagId equals tag.Id
-												   where (string.IsNullOrWhiteSpace(sTerm) || product.Name.ToLower().StartsWith(sTerm))
+												   where (string.IsNullOrWhiteSpace(sTerm) || product.Name.ToLower().Contains(sTerm))
 														 && (tagid == 0 || product.TagId == tagid)
 														 && (string.IsNullOrWhiteSpace(brand) || product.Brand.ToLower() == brand)
 														 && (product.Price >= minPrice && product.Price <= maxPrice)
-												   select new Product
+                                                         && product.Status == true
+                                                   select new Product
 												   {
 													   Id = product.Id,
 													   Productimg = product.Productimg,
@@ -37,8 +38,10 @@ namespace DoAnThucTapFin.Repositories
 													   Name = product.Name,
 													   TagId = product.TagId,
 													   Price = product.Price,
-													   tagname = tag.Name
-												   }).ToListAsync();
+													   tagname = tag.Name,
+                                                       Quantity = product.Quantity,
+                                                       Quantitysell = product.Quantitysell
+                                                   }).ToListAsync();
 
 			return products;
 		}

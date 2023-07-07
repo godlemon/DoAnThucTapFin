@@ -42,7 +42,7 @@
 						<div class="card-body">
 							<dl class="dlist-align">
 								<dt>Tổng</dt>
-                                    <dd class="text-right">@string.Format("{0:#,##0}", (Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum())) Đ</dd>
+                                    <dd class="text-right">@string.Format("{0:#,##0}", (Model.CartDetails.Select(item => item.products.Price * item.Quantity).Sum()))Đ</dd>
 							</dl>
 						</div>
 					<div class="card-body border-top">

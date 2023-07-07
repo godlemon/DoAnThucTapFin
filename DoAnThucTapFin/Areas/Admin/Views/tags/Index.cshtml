@@ -45,11 +45,26 @@
                 <img style="width: 80px; height: 80px" src="~/@item.Image" alt="Tag Image" />
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">
+                    <i class="far fa-edit"></i>
+                </a> |
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <i class="fas fa-info"></i>
+                </a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirmDelete()">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<script>
+    function confirmDelete() {
+        if (confirm("Bạn có chắc chắn muốn xóa Danh mục này?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

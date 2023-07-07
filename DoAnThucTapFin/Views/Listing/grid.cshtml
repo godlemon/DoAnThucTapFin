@@ -21,7 +21,7 @@
 								}
 								@if (ViewContext.RouteData.Values["action"] != null)
 								{
-									<li class="breadcrumb-item active" aria-current="page">@ViewContext.RouteData.Values["action"]</li>
+									<li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
 								}
 							</ol>
 						</nav>
@@ -85,22 +85,22 @@
 			<div class="form-inline">
 				<strong class="mr-md-auto">@Model.products.Count() kết quả </strong>
 
-				<select class="mr-2 form-control">
-					<option>Latest items</option>
-					<option>Trending</option>
-					<option>Most Popular</option>
-					<option>Cheapest</option>
+				<select id="sorting-select" class="mr-2 form-control">
+					<option>Xếp theo</option>
+					<option value="newest">Mới nhất</option>
+					<option value="popular">Phổ biến</option>
+					<option value="cheapest">Rẻ nhất</option>
 				</select>
 				<div class="btn-group">
 					<a asp-action="grid" class="btn btn-light active" data-toggle="tooltip" title="Thẻ">
-						<i class="fa fa-bars"></i>
+                        <i class="fa fa-th"></i>
 					</a>
 					<a asp-action="large" class="btn btn-light" data-toggle="tooltip" title="Hàng">
-						<i class="fa fa-th"></i>
+                        <i class="fa fa-bars"></i>
 					</a>
 				</div>
 			</div>
-		</header><!-- sect-heading -->
+		</header>
 
 		<div class="row">
 			@foreach (var pro in Model.products)
@@ -170,6 +170,24 @@
 	</div> <!-- container .//  -->
 </section>
 @section Scripts{
+	<script>
+		document.getElementById('sorting-select').addEventListener('change', function() {
+        var selectedOption = this.value;
+        switch (selectedOption) {
+            case 'newest':
+                window.location.href = '@Url.Action("SortByNewest", "Listing")';
+                break;
+            case 'popular':
+                window.location.href = '@Url.Action("SortByPopular", "Listing")';
+                break;
+            case 'cheapest':
+                window.location.href = '@Url.Action("SortByCheapest", "Listing")';
+                break;
+				default:
+					break;
+				}
+		});
+	</script>
 	<script>
 		async function add(productId) {
 			var usernameEl = document.getElementById("username");

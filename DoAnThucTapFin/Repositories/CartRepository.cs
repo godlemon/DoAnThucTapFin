@@ -153,7 +153,11 @@ namespace DoAnThucTapFin.Repositories
                 _db.SaveChanges();
                 foreach(var item in cartDetail)
                 {
-                    var orderDetail = new OrderDetail
+				    var product = _db.products.FirstOrDefault(p => p.Id == item.productid);
+                    if (product.Quantitysell == null)
+                        product.Quantitysell = 0;
+                    product.Quantitysell += item.Quantity;
+				    var orderDetail = new OrderDetail
                     {
                         Productid = item.productid,
                         OrderId  = order.Id,

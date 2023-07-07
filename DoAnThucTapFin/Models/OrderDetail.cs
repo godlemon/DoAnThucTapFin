@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.Framework;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DoAnThucTapFin.Models

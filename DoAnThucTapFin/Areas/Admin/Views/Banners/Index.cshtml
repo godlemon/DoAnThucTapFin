@@ -19,6 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Url)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,11 +35,30 @@
                 <img style="width: 550px; height: 180px" src="~/@item.Url" alt="Banner Image" />
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">
+                    <i class="far fa-edit"></i>
+                </a> |
+                <a asp-action="Details" asp-route-id="@item.Id">
+                    <i class="fas fa-info"></i>
+                </a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirmDelete()">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<script>
+    function confirmDelete() {
+        if (confirm("Bạn có chắc chắn muốn xóa banner này?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

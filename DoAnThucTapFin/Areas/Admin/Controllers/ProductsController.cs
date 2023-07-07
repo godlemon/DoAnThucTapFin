@@ -40,12 +40,13 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
         // GET: Admin/Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            
             if (id == null || _context.products == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.products
+            var product = await _context.products.Include(p => p.tags)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -65,7 +66,7 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Brand,Resolution,Price,Quantity,TagId")] Product product, IFormFile file)
+        public async Task<IActionResult> Create([Bind("Id,Name,Brand,Resolution,Price,Quantity,TagId,Status")] Product product, IFormFile file)
         {
             ViewBag.Tags = new SelectList(_context.tags, "Id", "Name", product.TagId);
             if (file != null)
@@ -96,16 +97,12 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
             }
             return View(product);
         }
-
-        // POST: Admin/Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         // POST: Admin/Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Productimg,Brand,Resolution,Quantity,TagId")] Product product, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Productimg,Brand,Resolution,Quantity,TagId,Status")] Product product, IFormFile file)
         {
             if (id != product.Id)
             {
@@ -130,6 +127,7 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
                     currentProduct.Brand = product.Brand;
                     currentProduct.Resolution = product.Resolution;
                     currentProduct.Quantity = product.Quantity;
+                    currentProduct.Status = product.Status;
                     currentProduct.TagId = product.TagId;
 
                     await _context.SaveChangesAsync();
@@ -156,44 +154,47 @@ namespace DoAnThucTapFin.Areas.Admin.Controllers
 
 
 
-        // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.products == null)
-            {
-                return NotFound();
-            }
+		// GET: Admin/Products/Delete/5
+		[HttpGet]
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null || _context.products == null)
+			{
+				return NotFound();
+			}
 
-            var product = await _context.products
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+			var product = await _context.products
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (product == null)
+			{
+				return NotFound();
+			}
 
-            return View(product);
-        }
+			_context.products.Remove(product);
+			await _context.SaveChangesAsync();
 
-        // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.products == null)
-            {
-                return Problem("Entity set 'ADbContext.products'  is null.");
-            }
-            var product = await _context.products.FindAsync(id);
-            if (product != null)
-            {
-                _context.products.Remove(product);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+			return RedirectToAction("Index");
+		}
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			if (_context.products == null)
+			{
+				return Problem("Entity set 'ADbContext.banners' is null.");
+			}
 
-        private bool ProductExists(int id)
+			var product = await _context.products.FindAsync(id);
+			if (product != null)
+			{
+				_context.products.Remove(product);
+				await _context.SaveChangesAsync();
+			}
+
+			return RedirectToAction("Index");
+		}
+
+		private bool ProductExists(int id)
         {
           return (_context.products?.Any(e => e.Id == id)).GetValueOrDefault();
         }

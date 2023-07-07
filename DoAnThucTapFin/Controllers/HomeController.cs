@@ -20,6 +20,7 @@ namespace DoAnThucTapFin.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             var bannersQuery = from b in dbContext.banners
+                               where b.Active == true
                                orderby b.Id descending
                                select b;
             ViewBag.Banners = await bannersQuery.ToListAsync();
@@ -27,7 +28,8 @@ namespace DoAnThucTapFin.Controllers
                             select t;
             ViewBag.Tags = await tagsQuery.ToListAsync();
             var ProductsQuery = from t in dbContext.products
-                            select t;
+                                where t.Status == true
+                                select t;
             ViewBag.Product = await ProductsQuery.ToListAsync();
 			return View();
         }

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using DoAnThucTapFin.Areas.Admin.Models;
 using DoAnThucTapFin.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
+using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace DoAnThucTap.Controllers
 {
@@ -78,5 +81,72 @@ namespace DoAnThucTap.Controllers
             };
             return View(productModel);
         }
+		public async Task<IActionResult> SortByNewestAsync(string sterm = "", int tagid = 0, double minPrice = 0, double maxPrice = double.MaxValue, string brand = "", int page = 1)
+		{
+			const int pageSize = 12;
+			var sortedProducts = dbContext.products.OrderByDescending(p => p.Id).ToList();
+			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
+			int totalItems = products.Count();
+			int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+			var productModel = new ProductDisplayModel
+			{
+				products = sortedProducts,
+				tags = dbContext.tags.ToList(),
+				Pagination = new PaginationModel
+				{
+					CurrentPage = page,
+					TotalPages = totalPages
+				}
+			};
+			var tagsQuery = from t in dbContext.tags
+							select t;
+			ViewBag.Tags = await tagsQuery.ToListAsync();
+			return View("grid", productModel);
+		}
+
+		public async Task<IActionResult> SortByCheapestAsync(string sterm = "", int tagid = 0, double minPrice = 0, double maxPrice = double.MaxValue, string brand = "", int page = 1)
+		{
+			const int pageSize = 12;
+			var sortedProducts = dbContext.products.OrderBy(p => p.Price).ToList();
+			IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
+			int totalItems = products.Count();
+			int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+			var productModel = new ProductDisplayModel
+			{
+				products = sortedProducts,
+				tags = dbContext.tags.ToList(),
+				Pagination = new PaginationModel
+				{
+					CurrentPage = page,
+					TotalPages = totalPages
+				}
+			};
+			var tagsQuery = from t in dbContext.tags
+							select t;
+			ViewBag.Tags = await tagsQuery.ToListAsync();
+			return View("grid", productModel);
+		}
+		public async Task<IActionResult> SortByPopularAsync(string sterm = "", int tagid = 0, double minPrice = 0, double maxPrice = double.MaxValue, string brand = "", int page = 1)
+		{
+			const int pageSize = 12;
+            var sortedProducts = dbContext.products.OrderByDescending(p => p.Quantitysell ?? 0).ToList();
+            IEnumerable<Product> products = await _homeRepository.GetProduct(sterm, tagid, brand, minPrice, maxPrice);
+			int totalItems = products.Count();
+			int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+			var productModel = new ProductDisplayModel
+			{
+				products = sortedProducts,
+				tags = dbContext.tags.ToList(),
+				Pagination = new PaginationModel
+				{
+					CurrentPage = page,
+					TotalPages = totalPages
+				}
+			};
+			var tagsQuery = from t in dbContext.tags
+							select t;
+			ViewBag.Tags = await tagsQuery.ToListAsync();
+			return View("grid", productModel);
+		}
 	}
 }

@@ -29,76 +29,79 @@
 
 
 		<div class="row">
+			
 			<aside class="col-md-2">
-				<article class="filter-group">
-					<h6 class="title">
-						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Hãng </a>
-					</h6>
-					<div class="filter-content collapse show" id="collapse_2">
-						<div class="inner">
-							@{
-								List<string> tempList = new List<string>();
-							}
-
-							@foreach (var pro in Model.products)
-							{
-								if (!tempList.Contains(pro.Brand))
-								{
-									tempList.Add(pro.Brand);
-									int count = Model.products.Count(p => p.Brand == pro.Brand);
-									<label class="custom-control custom-checkbox">
-										<input type="checkbox" checked="" class="custom-control-input">
-										<div class="custom-control-label">
-											@pro.Brand
-											<b class="badge badge-pill badge-light float-right">@count</b>
-										</div>
-									</label>
+				<form asp-action="large" asp-controller="Listing">
+					<article class="filter-group">
+						<h6 class="title">
+							<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> Hãng </a>
+						</h6>
+						<div class="filter-content collapse show" id="collapse_2">
+							<div class="inner">
+								@{
+									List<string> tempList = new List<string>();
 								}
-							}
-						</div> <!-- inner.// -->
-					</div>
-				</article> <!-- filter-group .// -->
-				<article class="filter-group">
-					<h6 class="title">
-						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_5"> Loại sản phẩm </a>
-					</h6>
-					<div class="filter-content collapse show" id="collapse_5">
-						<div class="inner">
-							<label class="custom-control custom-radio">
-								<input type="radio" name="myfilter_radio" checked="" class="custom-control-input">
-								<div class="custom-control-label">Laptop</div>
-							</label>
-							<label class="custom-control custom-radio">
-								<input type="radio" name="myfilter_radio" class="custom-control-input">
-								<div class="custom-control-label">Phụ kiện</div>
-							</label>
-						</div> <!-- inner.// -->
-					</div>
-				</article> <!-- filter-group .// -->
-				<article class="filter-group">
-					<h6 class="title">
-						<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3">Giá thành</a>
-					</h6>
-					<div class="filter-content collapse show" id="collapse_3">
-						<div class="inner">
-							<input type="range" class="custom-range" min="0" max="100" name="priceRange" id="priceRange" oninput="updatePriceRange()">
-							<div class="form-row">
-								<div class="form-group col-md-6">
-									<label>Min</label>
-									<input class="form-control" placeholder="$0" type="number" id="minPrice" onchange="updateMinPrice()">
-								</div>
-								<div class="form-group text-right col-md-6">
-									<label>Max</label>
-									<input class="form-control" placeholder="$1,0000" type="number" id="maxPrice" onchange="updateMaxPrice()">
-								</div>
-							</div>
-							
+								@foreach (var pro in Model.products)
+								{
+									if (!tempList.Contains(pro.Brand))
+									{
+										tempList.Add(pro.Brand);
+										int count = Model.products.Count(p => p.Brand == pro.Brand);
+										<label class="custom-control custom-checkbox">
+											<input type="radio" value="@pro.Brand" name="brand" class="custom-control-input">
+											<div class="custom-control-label">
+												@pro.Brand
+												<b class="badge badge-pill badge-light float-right">@count</b>
+											</div>
+										</label>
+									}
+								}
+							</div> <!-- inner.// -->
 						</div>
-					</div>
-				</article> <!-- filter-group .// -->
+					</article> <!-- filter-group .// -->
+					<article class="filter-group">
+						<h6 class="title">
+							<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_5"> Loại sản phẩm </a>
+						</h6>
+						<div class="filter-content collapse show" id="collapse_5">
+							<div class="inner">
+								<label class="custom-control custom-radio">
+									<input type="radio" value="3" name="tagid" class="custom-control-input">
+									<div class="custom-control-label">Laptop</div>
+								</label>
+								<label class="custom-control custom-radio">
+									<input type="radio" value="" name="tagid" class="custom-control-input">
+									<div class="custom-control-label">Phụ kiện</div>
+								</label>
+							</div> <!-- inner.// -->
+						</div>
+					</article> <!-- filter-group .// -->
+					<article class="filter-group">
+						<h6 class="title">
+							<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3">Giá thành</a>
+						</h6>
+						<div class="filter-content collapse show" id="collapse_3">
+							<div class="inner">
+								<input type="range" class="custom-range" min="0" max="100" name="priceRange" id="priceRange" oninput="updatePriceRange()">
+								<div class="form-row">
+									<div class="form-group col-md-6">
+										<label>Min</label>
+										<input class="form-control" placeholder="0đ" type="number" name="minPrice" id="minPrice" onchange="updateMinPrice()">
+									</div>
+									<div class="form-group text-right col-md-6">
+										<label>Max</label>
+										<input class="form-control" placeholder="1,000,000đ" type="number" name="maxPrice" id="maxPrice" onchange="updateMaxPrice()">
+									</div>
+								</div>
+							
+							</div>
+						</div>
+					</article> <!-- filter-group .// -->
 
-                <button class="btn btn-block btn-primary">Xác nhận</button>
-			</aside> <!-- col.// -->
+					<button type="submit" class="btn btn-block btn-primary">Xác nhận</button>
+				</form>
+            </aside> <!-- col.// -->
+            
 			<main class="col-md-10">
 
 
@@ -106,11 +109,11 @@
 					<div class="form-inline">
 						<strong class="mr-md-auto">@Model.products.Count() kết quả </strong>
 						<div class="btn-group">
-							<a asp-action="grid" class="btn btn-light" data-toggle="tooltip" title="List view">
-								<i class="fa fa-bars"></i>
-							</a>
-							<a asp-action="large" class="btn btn-light active" data-toggle="tooltip" title="Grid view">
+							<a asp-action="grid" class="btn btn-light " data-toggle="tooltip" title="Thẻ">
 								<i class="fa fa-th"></i>
+							</a>
+							<a asp-action="large" class="btn btn-light active" data-toggle="tooltip" title="Hàng">
+								<i class="fa fa-bars"></i>
 							</a>
 						</div>
 					</div>
